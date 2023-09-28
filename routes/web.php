@@ -6,6 +6,7 @@ use App\Http\Controllers\AdultoController;
 use App\Http\Controllers\ReferenciaController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\PatologiaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,8 @@ Route::resource('adulto', AdultoController::class);
 Route::resource('referencia', ReferenciaController::class);
 //RUTA GENERAL DE Historial
 Route::resource('historial', HistorialController::class);
+//RUTA GENERAL DE Historial
+Route::resource('patologia', PatologiaController::class);
 
 //RUTA GENERAL DE ADULTOS
 //Route::resource('general', GeneralController::class);

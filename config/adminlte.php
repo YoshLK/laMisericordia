@@ -390,18 +390,18 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+                    'asset' => true,
+                    'location' => 'vendor/DataTables/datatables.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                    'location' => 'vendor/DataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                    'location' => 'vendor/DataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css',
                 ],
             ],
         ],
@@ -435,8 +435,8 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
+                    'asset' => true,
+                    'location' => 'vendor/sweetalert2/dist/sweetalert2.all.min.js',
                 ],
             ],
         ],

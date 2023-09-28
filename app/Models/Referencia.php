@@ -8,16 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Referencia extends Model
 {
     use HasFactory;
-    public function Adultos(){
+    public function adultosDatos(){
+        //relacion uno a muchos
         return $this->belongsTo(Adulto::class, 'adulto_id');
     } 
 
-    static $rules=[
-        'adulto_id'=>'required',
-        'primer_nombre'=>'required',
-        'segundo_nombre'=>'required'   
-    ];
-
-    //datos que se trabajan
-    protected $fillable=['adulto_id','primer_nombre','segundo_nombre'];
 }

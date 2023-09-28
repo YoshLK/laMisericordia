@@ -12,10 +12,13 @@ class Historial extends Model
     ///Relacion uno a uno adulto
     public function adultoDatos(){
      
-        return $this->belongsTO('App\Models\Adulto');
+        return $this->belongsTO(Adulto::class);
     }
 
-
+    //relacion uno a muhcos historial a Patologia
+    public function patologiasDatos(){
+        return $this->hasMany(Patologia::class);
+    } 
 }
 
 

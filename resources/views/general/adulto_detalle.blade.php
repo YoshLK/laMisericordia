@@ -5,100 +5,97 @@
 @section('content_header')
 
     <h3 class="text-center">
-        <strong class="bg-skyblue">FICHA DEL ADULTO MAYOR</strong>
+        <strong>FICHA DEL ADULTO MAYOR</strong>
     </h3>
 @stop
 
 @section('content')
 
-    <div class="row-auto">
-        <h3> <span class="fas fa-user  badge text-green bg-warning rounded-pill"> Nombre:</span> </h3>
-    </div>
-    <div class="row">
-        <div class="col-5">
-            <h3 class="text-center">
-                <b> {{ $adulto->primer_nombre }} {{ $adulto->segundo_nombre }} {{ $adulto->primer_apellido }}
+    <!-- DATOS PERSONALES-->
+    <div class="card" style="width: 95%;">
+        <h3 class="bg-dark px-5" style="width: 100%">DATOS PERSONALES</h3>
+        <div class="row px-5 mt-2">
+            <div class="col-5">
+                <h5> <b> Nombre:</b> {{ $adulto->primer_nombre }} {{ $adulto->segundo_nombre }}
+                    {{ $adulto->primer_apellido }}
                     {{ $adulto->segundo_apellido }}
-                </b>
-            </h3>
+                </h5>
+            </div>
+            <div class="col-5">
+                @if (isset($adulto->foto))
+                    <img class="img-thumbnail img-fluid" src="{{ asset('storage') . '/' . $adulto->foto }}" width="100">
+                @endif
+            </div>
+            <div class="col-2">
+                <a href="{{ url('/adulto/' . $adulto->id . '/edit') }}" class="btn btn-outline-secondary">
+                    Editar
+                </a>
+            </div>
         </div>
-        <div class="col-5">
-            @if (isset($adulto->foto))
-                <img class="img-thumbnail img-fluid" src="{{ asset('storage') . '/' . $adulto->foto }}" width="100">
-            @endif
+        <div class="row px-5 mt-2">
+            <div class="col-4">
+                <b>
+                    <h5>DPI:
+                </b> {{ $adulto->DPI }}</span> </h5>
+            </div>
+            <div class="col-3">
+                <b>
+                    <h5>Procedencia:
+                </b> {{ $adulto->procedencia }}</span> </h5>
+            </div>
+            <div class="col-5">
+                <b>
+                    <h5>Fecha de ingreso:
+                </b> {{ $adulto->fecha_ingreso }}</span> </h5>
+            </div>
         </div>
-        <div class="col-2">
-            <a href="{{ url('/adulto/' . $adulto->id . '/edit') }}" class="btn btn-warning">
-                Editar
-            </a>
+        <br>
+        <div class="row px-5 mt-2">
+            <div class="col-5">
+                <b>
+                    <h5>Fecha de nacimiento:
+                </b> {{ $adulto->fecha_nacimiento }}</span> </h5>
+            </div>
+            <div class="col-3">
+                <b>
+                    <h5>Edad:
+                </b> {{ $adulto->edad }}</span></h5>
+            </div>
+            <div class="col-4">
+                <b>
+                    <h5>Estado:
+                </b> {{ $adulto->estado_actual }}</span> </h5>
+            </div>
         </div>
+        <div class="w-100 p-1" style="background-color: #343a40;"></div>
+        <br>
     </div>
 
-    <div class="row-auto px-2 py-2">
-        <h3> <span class="fas fa-address-card badge bg-warning rounded-pill"> Credenciales</span> </h3>
-    </div>
-    <div class="row">
-        <div class="col-4">
-            <b>
-                <h3>DPI:
-            </b> {{ $adulto->DPI }}</span> </h3>
-        </div>
-        <div class="col-3">
-            <b>
-                <h3>Procedencia:
-            </b> {{ $adulto->procedencia }}</span> </h3>
-        </div>
-        <div class="col-5">
-            <b>
-                <h3>Fecha de ingreso:
-            </b> {{ $adulto->fecha_ingreso }}</span> </h3>
-        </div>
-    </div>
-
-    <div class="row-auto px-2 py-3">
-        <h3> <span class="fas fa-user  badge text-green bg-warning  rounded-pill"> Iformacion adicional</span> </h3>
-    </div>
-    <div class="row">
-        <div class="col-5">
-            <b>
-                <h3>Fecha de nacimiento:
-            </b> {{ $adulto->fecha_nacimiento }}</span> </h3>
-        </div>
-        <div class="col-3">
-            <b>
-                <h3>Edad:
-            </b> {{ $adulto->edad }}</span></h3>
-        </div>
-        <div class="col-4">
-            <b>
-                <h3>Estado:
-            </b> {{ $adulto->estado_actual }}</span> </h3>
-        </div>
-    </div>
-    <br>
+    <!-- REFERENCIAS -->
     <div class="row">
         <div class="col-3">
             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createReferencia">
                 + Añadir Referencia
             </button>
+            @include('referencia.create')
         </div>
         <div class="col-3">
-        <!--BOTON HISTORIAL -->
-            @if(empty($adulto->historialDatos->peso))
-                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createHistorial">
+            <!--BOTON HISTORIAL -->
+            @if (empty($adulto->historialDatos->peso))
+                <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#createHistorial">
                     + Ficha Medidas Corporales
                 </button>
                 @include('historial.create')
             @endif
-
         </div>
     </div>
     <br>
-    @include('referencia.create')
-    <!-- Modal -->
     @if ($referencias->count())
+        <h3>
+            <p class="text-white bg-primary px-5">REFERENCIAS</p>
+        </h3>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover">
+            <table class="table table-bordered  table-hover">
                 <thead class="thead table-primary">
                     <tr>
                         <th>#</th>
@@ -117,7 +114,7 @@
                             <td>{{ $referencia->telefono }}</td>
                             <td>{{ $referencia->direccion }}</td>
                             <td>
-                                <button type="button" class="btn btn-warning formulario" data-toggle="modal"
+                                <button type="button" class="btn btn-outline-primary formulario" data-toggle="modal"
                                     data-target="#editReferencia{{ $referencia->id }}">
                                     Editar
                                 </button>
@@ -135,69 +132,93 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="w-100 p-1" style="background-color: #007bff;"></div>
     @endif
 
-    @if (isset($adulto->historialDatos->peso))
-    <div class="row">
-        <div class="col-6">
-            <h3> <span class="badge text-green bg-warning rounded-pill"> Medidas Corporales:</span> </h3>
-          </div>
-          <div class="col-6">
-            
-            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#editHistorial{{ $adulto->historialDatos->id }}">
-                + Editar Ficha Corporal
-            </button>
-            @include('historial.edit')
-          </div>
-   </div>
-    <div class="row">
-        <div class="col-6 ">
-            <h3>
-                <b>Peso:</b>
-                {{ $adulto->historialDatos->peso }} kg
-            </h3>
-        </div>
-        <div class="col-auto-6">
-            <h3>
-                <b> Altura:</b>
-                {{ $adulto->historialDatos->altura }} cm
-            </h3>
-        </div>
-    </div>
-    <div class="row-auto">
-        <h3> <span class="badge text-green bg-warning rounded-pill"> Tallas:</span> </h3>
-    </div>
-    <div class="row">
-        <div class="col-4">
-            <h3>
-                <b>Camisa:</b>
-                {{ $adulto->historialDatos->tronco }}
-            </h3>
-        </div>
-        <div class="col-4">
-            <h3>
-                <b>Patanlon:</b>
-                {{ $adulto->historialDatos->piernas }}
-            </h3>
-        </div>
-        <div class="col-4">
-            <h3>
-                <b>Calzado:</b>
-                {{ $adulto->historialDatos->calzado }}
-            </h3>
-        </div>
-    </div>
-    @if(isset($adulto->historialDatos->dificultad_motora))
-    <div class="row-auto">
-        <h3> <span class="badge text-green bg-warning rounded-pill"> Discapacidad Motora</span> </h3>
-    </div>
-            <h3>
-                <b>Dificultad Motora:</b>
-                {{ $adulto->historialDatos->dificultad_motora }}
-            </h3>
-    @endif
+    <!-- DATOS FICHA CORPORALES-->
     <br>
+    @if (isset($adulto->historialDatos->peso))
+        <div class="card" style="width: 95%;">
+            <h3 class="bg-info px-5" style="width: 100%">MEDIDAS CORPORALES</h3>
+            <div class="row px-5 mt-2">
+                <div class="col-4 ">
+                    <h5>
+                        <b>Peso:</b>
+                        {{ $adulto->historialDatos->peso }} kg
+                    </h5>
+                </div>
+                <div class="col-4">
+                    <h5>
+                        <b> Altura:</b>
+                        {{ $adulto->historialDatos->altura }} cm
+                    </h5>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal"
+                        data-target="#editHistorial{{ $adulto->historialDatos->id }}">
+                        + Editar Ficha Corporal
+                    </button>
+                    @include('historial.edit')
+                </div>
+            </div>
+            <h5 class="bg-info px-5 text-center" style="width: 20%"><b>Tallas</b></h5>
+            <div class="row px-5">
+                <div class="col-4">
+                    <h5>
+                        <b>Camisa:</b>
+                        {{ $adulto->historialDatos->tronco }}
+                    </h5>
+                </div>
+                <div class="col-4">
+                    <h5>
+                        <b>Patanlon:</b>
+                        {{ $adulto->historialDatos->piernas }}
+                    </h5>
+                </div>
+                <div class="col-4">
+                    <h5>
+                        <b>Calzado:</b>
+                        {{ $adulto->historialDatos->calzado }}
+                    </h5>
+                </div>
+            </div>
+            @if (isset($adulto->historialDatos->dificultad_motora))
+                <h5 class="bg-info px-5 text-center" style="width: 25%"><b>Dificultad Motora</b></h5>
+                <div class="row px-5">
+                    <h5>
+                        {{ $adulto->historialDatos->dificultad_motora }}
+                    </h5>
+                </div>
             @endif
+            <br>
+            <div class="w-100 p-1" style="background-color: #17a2b8;"></div>
+    @endif
+    </div>
+
+
+
+
+    <!-- PATOLOGIAS - MEDICINA - ALERGIAS-->
+    @if (isset($adulto->historialDatos->peso))
+        <div class="row">
+            <div class="col-3">
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createPatologia">
+                    + Patologias
+                </button>
+                @include('patologia.create')
+            </div>
+            <div class="col-3">
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createMedicina">
+                    + Medicinas
+                </button>
+            </div>
+            <div class="col-3">
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createAlergias">
+                    + Alergias
+                </button>
+            </div>
+        </div>
+    @endif
 @stop
 
 

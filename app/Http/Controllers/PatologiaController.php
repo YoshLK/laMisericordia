@@ -12,7 +12,7 @@ class PatologiaController extends Controller
      */
     public function index()
     {
-        //
+        return view('patologia/create');
     }
 
     /**

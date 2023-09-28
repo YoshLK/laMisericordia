@@ -10,14 +10,14 @@ class Adulto extends Model
     use HasFactory;
 
     //relacion uno a muhcos Adulto a Referencia
-    public function refencias(){
+    public function referenciaDatos(){
         return $this->hasMany(Referencia::class);
     } 
 
     //relacion uno a uno historial
     public function historialDatos(){
      
-        return $this->hasOne('App\Models\Historial');
+        return $this->hasOne(Historial::class);
     }
 }
 

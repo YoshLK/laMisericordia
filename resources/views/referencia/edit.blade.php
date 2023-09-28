@@ -1,8 +1,8 @@
 <div class="modal fade" id="editReferencia{{ $referencia->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header" style="background-color: #e9e64f !important;">
-          <h3 class="modal-title" style="color: #000000; text-align: center;">
+        <div class="modal-header" style="background-color: #007bff !important;">
+          <h3 class="modal-title" style="color: #fff; text-align: center;">
               Actualizar Información - Referencia
           </h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">

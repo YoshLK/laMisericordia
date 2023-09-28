@@ -1,7 +1,7 @@
 <div class="modal fade" id="createHistorial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-          <div class="modal-header" style="background-color: #19c409dc !important;">
+          <div class="modal-header" style="background-color: #17a2b8 !important;">
             <h3 class="modal-title" style="color: #fff; text-align: center;">
               FICHA DE MEDIDAS CORPORALES
             </h3> 
@@ -12,7 +12,7 @@
         <form action="{{ route('historial.store') }}" method="POST">
         {{csrf_field()}}
         <div class="modal-body">
-          <h6 class="modal-title bg-success text-white col-md-7" >MEDIDAS CORPORALES</h6>
+          <h6 class="modal-title bg-info text-white col-md-7" >MEDIDAS CORPORALES</h6>
                 <input type="text" name="adulto_id" value="{{$adulto->id}}" required="true" style="visibility:hidden">
                 <div class="form-row ">
                 <div class="form-group col-md">
@@ -24,7 +24,7 @@
                     <input type="text" name="altura" class="form-control"  placeholder="Ingresar la altura del adulto mayor" required="true">
                 </div>
               </div>
-                  <h6 class="modal-title bg-success text-white col-md-6" >TALLAS DE VESTIMENTA</h6>
+                  <h6 class="modal-title bg-info text-white col-md-6" >TALLAS DE VESTIMENTA</h6>
                   <div class="form-row ">
                     <label>Talla de Camisa/Sweater</label>
                     <select class="form-control" name="tronco" id="tronco" class="form-control rounded-pill">  
@@ -44,7 +44,7 @@
                 </div>
                 <br>
                   <div class="form-row ">
-                    <h6 class="modal-title bg-success text-white col-md-6" >DIFICULTAD MOTORA</h6>
+                    <h6 class="modal-title bg-info text-white col-md-6" >DIFICULTAD MOTORA</h6>
                       <textarea class="form-control" name="dificultad_motora" rows="3"  placeholder="Notas de dificultades motoras"></textarea>
                   </div>
 
