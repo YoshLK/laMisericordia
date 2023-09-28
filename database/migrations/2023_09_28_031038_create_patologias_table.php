@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('patologias', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre_patologia',50)->nullanble(false);
+            $table->date('fecha_diagnostico')->nullanble(false);
+            $table->string('gravedad',25)->nullanble(false);
+            $table->string('tratamiento_actual',150)->nullanble(false);
+            $table->string('evolucion',10)->nullanble(false);
+            $table->text('notas_patologia')->nullable(true);
+            $table->foreignId('historial_id')
+                  ->nullable()
+                  ->constrained('historials')
+                  ->cascadeOnUpdate()
+                  ->cascadeonDelete();
             $table->timestamps();
         });
     }
