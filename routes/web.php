@@ -52,10 +52,15 @@ Route::resource('referencia', ReferenciaController::class);
 Route::resource('historial', HistorialController::class);
 //RUTA GENERAL DE Historial
 Route::resource('patologia', PatologiaController::class);
-
+//Ruta eliminar patologia
+Route::post('/eliminar_patologia', [PatologiaController::class, 'eliminar'])->name('eliminar_patologia');
 //RUTA GENERAL DE ADULTOS
 //Route::resource('general', GeneralController::class);
 
-Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'ver']);
+Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'verReferencias']);
+Route::get('/general/adulto_detalle/',[App\Http\Controllers\GeneralController::class, 'verPatologias']);
+
+//
+// routes/web.php
 
 

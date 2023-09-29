@@ -17,7 +17,6 @@ return new class extends Migration
             $table->date('fecha_diagnostico')->nullanble(false);
             $table->string('gravedad',25)->nullanble(false);
             $table->string('tratamiento_actual',150)->nullanble(false);
-            $table->string('evolucion',10)->nullanble(false);
             $table->text('notas_patologia')->nullable(true);
             $table->foreignId('historial_id')
                   ->nullable()

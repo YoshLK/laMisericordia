@@ -90,7 +90,7 @@
         </div>
     </div>
     <br>
-    @if ($referencias->count())
+    @if ($adulto->referenciaDatos->count())
         <h3>
             <p class="text-white bg-primary px-5">REFERENCIAS</p>
         </h3>
@@ -106,7 +106,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($referencias as $referencia)
+                    @foreach ($adulto->referenciaDatos as $referencia)
                         <tr>
                             <td>{{ $referencia->id }} </td>
                             <td>{{ $referencia->primer_nombre }} {{ $referencia->segundo_nombre }}
@@ -195,32 +195,83 @@
     @endif
     </div>
 
-
-
-
     <!-- PATOLOGIAS - MEDICINA - ALERGIAS-->
     @if (isset($adulto->historialDatos->peso))
         <div class="row">
             <div class="col-3">
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createPatologia">
+                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createPatologia">
                     + Patologias
                 </button>
                 @include('patologia.create')
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createMedicina">
+                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createMedicina">
                     + Medicinas
                 </button>
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createAlergias">
+                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createAlergias">
                     + Alergias
                 </button>
             </div>
         </div>
+        <br>
+    @endif
+
+    @if (isset($adulto->historialDatos->peso))
+        <!--PATOLOGIAS TABLA-->
+        @if ($adulto->historialDatos->patologiasDatos->count())
+            <h3>
+                <p class="text-white bg-success px-5">PATOLOGIAS</p>
+            </h3>
+            <div class="table table-auto">
+                <table class="table table-bordered  table-hover ">
+                    <thead class="thead table-success">
+                        <tr>
+                           
+                            <th>Patologia:</th>
+                            <th>Fecha de diagnostico:</th>
+                            <th>Gravedad:</th>
+                            <th>Tratamiento:</th>
+                            <th>Acciones</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($adulto->historialDatos->patologiasDatos as $patologia)
+                            <tr>
+                                <input  name="contador" value="{{ $contador = (int)$loop->iteration-1 }}" type="hidden">
+                                <td>{{ $patologia->nombre_patologia }}</td>
+                                <td>{{ $patologia->fecha_diagnostico }}</td>
+                                <td>{{ $patologia->gravedad }}</td>
+                                <td>{{ $patologia->tratamiento_actual }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success formulario" data-toggle="modal"
+                                        data-target="#detallePatologia{{$contador}}">
+                                        Notas
+                                    </button>
+                                    <button type="button" class="btn btn-outline-success formulario" data-toggle="modal"
+                                        data-target="#editPatologia{{ $patologia->id }}">
+                                        Editar
+                                    </button>
+                                    <form method="POST" action="{{ route('eliminar_patologia') }}" class="d-inline formulario-eliminar">
+                                        @csrf
+                                        <input name="id" value="{{ $patologia->id }}" type="hidden">
+                                        <input name="ruta" value="{{ $adulto->id }}" type="hidden">
+                                        <button type="submit" class="btn btn-outline-danger" data-toggle="modal">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <!--modal editar--->
+                            @include('patologia.edit')
+                            @include('patologia.detalle')
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="w-100 p-1" style="background-color: #28a745;"></div>
+        @endif
     @endif
 @stop
-
 
 
 
