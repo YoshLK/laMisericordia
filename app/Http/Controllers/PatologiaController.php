@@ -87,15 +87,9 @@ class PatologiaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id, $url)
+    public function destroy()
     {
-        $patologia=Patologia::findOrFail($id);
-        //print_r($id);
-        //print_r($redireccion);
-        
-        return response()->json($url);
-        //Patologia::destroy($id);
-        //return redirect('/general/adulto_detalle/'.$patologia->adulto_id)->with('patologia','eliminado');
+        //
     }
 
 
@@ -107,10 +101,8 @@ class PatologiaController extends Controller
         $id = $request->input('id');
         $ruta = $request->input('ruta');
         $patologia=Patologia::findOrFail($id);
-        // Hacer algo con las variables, como almacenarlas en la base de datos o realizar algún procesamiento.
         Patologia::destroy($id);
         return redirect('/general/adulto_detalle/'.$ruta)->with('patologia','eliminado');
     }
-
 
 }

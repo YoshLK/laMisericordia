@@ -20,7 +20,5 @@ class GeneralController extends Controller
         return view('general.adulto_detalle', compact('adulto'));
     }
 
-   
-
     
 }

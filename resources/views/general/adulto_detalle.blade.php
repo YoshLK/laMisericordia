@@ -228,37 +228,39 @@
                 <table class="table table-bordered  table-hover ">
                     <thead class="thead table-success">
                         <tr>
-                           
+
                             <th>Patologia:</th>
                             <th>Fecha de diagnostico:</th>
                             <th>Gravedad:</th>
                             <th>Tratamiento:</th>
                             <th>Acciones</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($adulto->historialDatos->patologiasDatos as $patologia)
                             <tr>
-                                <input  name="contador" value="{{ $contador = (int)$loop->iteration-1 }}" type="hidden">
+                                <input name="contador" value="{{ $contador = (int) $loop->iteration - 1 }}" type="hidden">
                                 <td>{{ $patologia->nombre_patologia }}</td>
                                 <td>{{ $patologia->fecha_diagnostico }}</td>
                                 <td>{{ $patologia->gravedad }}</td>
                                 <td>{{ $patologia->tratamiento_actual }}</td>
                                 <td>
                                     <button type="button" class="btn btn-success formulario" data-toggle="modal"
-                                        data-target="#detallePatologia{{$contador}}">
+                                        data-target="#detallePatologia{{ $contador }}">
                                         Notas
                                     </button>
                                     <button type="button" class="btn btn-outline-success formulario" data-toggle="modal"
                                         data-target="#editPatologia{{ $patologia->id }}">
                                         Editar
                                     </button>
-                                    <form method="POST" action="{{ route('eliminar_patologia') }}" class="d-inline formulario-eliminar">
+                                    <form method="POST" action="{{ route('eliminar_patologia') }}"
+                                        class="d-inline formulario-eliminar">
                                         @csrf
                                         <input name="id" value="{{ $patologia->id }}" type="hidden">
                                         <input name="ruta" value="{{ $adulto->id }}" type="hidden">
-                                        <button type="submit" class="btn btn-outline-danger" data-toggle="modal">Borrar</button>
+                                        <button type="submit" class="btn btn-outline-danger"
+                                            data-toggle="modal">Borrar</button>
                                     </form>
                                 </td>
                             </tr>
