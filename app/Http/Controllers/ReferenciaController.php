@@ -47,7 +47,7 @@ class ReferenciaController extends Controller
         $datosReferencia = request()->except('_token');
         
         Referencia::insert($datosReferencia);
-        return redirect('/general/adulto_detalle/'.$request->adulto_id)->with('referencia', 'registrado');
+        return redirect('/general/adulto_detalle/'.$request->adulto_id)->with('mensaje', 'registrado');
         
     }
 
@@ -89,7 +89,7 @@ class ReferenciaController extends Controller
         $datosReferencia = request()->except(['_token','_method']);
         Referencia::where('id','=',$id)->update($datosReferencia);
         $referencia=Referencia::findOrFail($id);    
-        return redirect( '/general/adulto_detalle/'.$request->adulto_id)->with('referencia','editado');
+        return redirect( '/general/adulto_detalle/'.$request->adulto_id)->with('mensaje','editado');
     }
 
     /**
@@ -99,6 +99,6 @@ class ReferenciaController extends Controller
     {
         $referencia=Referencia::findOrFail($id);
         Referencia::destroy($id);
-        return redirect('/general/adulto_detalle/'.$referencia->adulto_id)->with('referencia','eliminado');
+        return redirect('/general/adulto_detalle/'.$referencia->adulto_id)->with('mensaje','eliminado');
     }
 }

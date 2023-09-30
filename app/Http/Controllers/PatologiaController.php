@@ -41,7 +41,7 @@ class PatologiaController extends Controller
         $this->validate($request, $campos, $mensaje);
         $datosPatologia = request()->except('_token','adulto_id');
         Patologia::insert($datosPatologia);
-        return redirect('/general/adulto_detalle/'.$request->adulto_id)->with('patologia', 'registrado');
+        return redirect('/general/adulto_detalle/'.$request->adulto_id)->with('mensaje', 'registrado');
     }
 
     /**
@@ -81,7 +81,7 @@ class PatologiaController extends Controller
         $datosPatologia = request()->except(['_token','_method','adulto_id']);
         Patologia::where('id','=',$id)->update($datosPatologia);
         $patologia=Patologia::findOrFail($id);    
-        return redirect( '/general/adulto_detalle/'.$request->adulto_id)->with('patologia','editado');
+        return redirect( '/general/adulto_detalle/'.$request->adulto_id)->with('mensaje','editado');
     }
 
     /**
@@ -95,14 +95,13 @@ class PatologiaController extends Controller
 
    // app/Http/Controllers/MiControlador.php
 
-
     public function eliminar(Request $request)
     {
         $id = $request->input('id');
         $ruta = $request->input('ruta');
         $patologia=Patologia::findOrFail($id);
         Patologia::destroy($id);
-        return redirect('/general/adulto_detalle/'.$ruta)->with('patologia','eliminado');
+        return redirect('/general/adulto_detalle/'.$ruta)->with('mensaje','eliminado');
     }
 
 }

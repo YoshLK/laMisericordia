@@ -1,11 +1,10 @@
-Edicion
 <div class="modal fade" id="editMedicamento{{ $medicamento->id }}" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #28a745 !important;">
+            <div class="modal-header" style="background-color: #6c757d !important;">
                 <h3 class="modal-title" style="color: #fff; text-align: center;">
-                    FORMULARIO EDICION PATOLOGIA
+                    EDICION MEDICAMENTO
                 </h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -16,7 +15,7 @@ Edicion
                 @csrf
                 {{ method_field('PATCH') }}
                 <div class="modal-body">
-                    <h5 class="modal-title bg-success col-md-7"> Datos del Medicamento</h5>
+                    <h5 class="modal-title bg-secondary col-md-7"> Datos del Medicamento</h5>
                     <input type="text" name="historial_id" value="{{ $adulto->historialDatos->id }}" required="true"
                         style="visibility:hidden">
                     <input type="text" name="adulto_id" value="{{ $adulto->id }}" required="true"
@@ -29,7 +28,7 @@ Edicion
                                 placeholder="Ingresar el nombre del medicamento" required="true">
                         </div>
                     </div>
-                    <h6 class="modal-title bg-success text-white col-md-6">Detalles de administracion</h6>
+                    <h6 class="modal-title bg-secondary text-white col-md-6">Detalles de administracion</h6>
                     <div class="form-row ">
                         <div class="form-group col-md">
                             <label>Dosis cantidad</label>
@@ -69,8 +68,8 @@ Edicion
                         <div class="form-group col-md">
                             <label>Frecuencia</label>
                             <input type="text" name="frecuencia_tiempo" class="form-control"
-                            value="{{ $medicamento->frecuencia_tiempo }}"  
-                            placeholder="Frecuencia en numeros" required="true">
+                                value="{{ $medicamento->frecuencia_tiempo }}" placeholder="Frecuencia en numeros"
+                                required="true">
                         </div>
                         <div class="form-group col-md">
                             <label>Tiempo</label>
@@ -85,15 +84,17 @@ Edicion
                             </select>
                         </div>
                     </div>
-                    <h6 class="modal-title bg-success text-white col-md-6">Tiempo de duracion</h6>
+                    <h6 class="modal-title bg-secondary text-white col-md-6">Tiempo de duracion</h6>
                     <div class="form-row ">
                         <div class="form-group col-md">
                             <label>Fecha de inicio</label>
-                            <input type="date" name="fecha_inicio" class="form-control" value="{{ $medicamento->fecha_inicio }}"  required="true">
+                            <input type="date" name="fecha_inicio" class="form-control"
+                                value="{{ $medicamento->fecha_inicio }}" required="true">
                         </div>
                         <div class="form-group col-md">
                             <label>Fecha del final</label>
-                            <input type="date" name="fecha_fin" value="{{ $medicamento->fecha_fin }} class="form-control">
+                            <input type="date" name="fecha_fin" class="form-control"
+                                value="{{ $medicamento->fecha_fin }}">
                         </div>
                     </div>
                     <div class="form-row ">

@@ -59,6 +59,16 @@
         </tbody>
     </table>
     {!! $adultos->links() !!}
+
+    <button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Borrar">
+        <i class="fa fa-lg fa-fw fa-trash"></i>
+    </button>
+    <button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Detalle">
+        <i class="fa fa-lg fa-fw fa-eye"></i>
+    </button>
+    <button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
+        <i class="fa fa-lg fa-fw fa-pen"></i>
+    </button>
 @stop
 
 @section('css')

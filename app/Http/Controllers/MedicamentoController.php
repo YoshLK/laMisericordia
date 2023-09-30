@@ -47,7 +47,7 @@ class MedicamentoController extends Controller
         $this->validate($request, $campos, $mensaje);
         $datosMedicamento = request()->except('_token','adulto_id');
         Medicamento::insert($datosMedicamento);
-        return redirect('/general/adulto_detalle/'.$request->adulto_id)->with('medicamento', 'registrado');
+        return redirect('/general/adulto_detalle/'.$request->adulto_id)->with('mensaje', 'registrado');
     }
 
     /**
@@ -92,7 +92,7 @@ class MedicamentoController extends Controller
         $datosMedicamento = request()->except(['_token','_method','adulto_id']);
         Medicamento::where('id','=',$id)->update($datosMedicamento);
         $medicamento=Medicamento::findOrFail($id);    
-        return redirect( '/general/adulto_detalle/'.$request->adulto_id)->with('medicamento','editado');
+        return redirect( '/general/adulto_detalle/'.$request->adulto_id)->with('mensaje','editado');
     }
 
     /**
@@ -101,5 +101,14 @@ class MedicamentoController extends Controller
     public function destroy(Medicamento $medicamento)
     {
         //
+    }
+
+    public function eliminar(Request $request)
+    {
+        $id = $request->input('id');
+        $ruta = $request->input('ruta');
+        $medicamento=Medicamento::findOrFail($id);
+        Medicamento::destroy($id);
+        return redirect('/general/adulto_detalle/'.$ruta)->with('mensaje','eliminado');
     }
 }

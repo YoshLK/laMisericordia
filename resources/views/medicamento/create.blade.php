@@ -2,9 +2,9 @@
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #28a745 !important;">
+            <div class="modal-header" style="background-color: #6c757d !important;">
                 <h3 class="modal-title" style="color: #fff; text-align: center;">
-                    FORMULARIO NUEVA PATOLOGIA
+                    FORMULARIO NUEVO MEDICAMENTO
                 </h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -13,7 +13,7 @@
             <form action="{{ route('medicamento.store') }}" method="POST">
                 {{ csrf_field() }}
                 <div class="modal-body">
-                    <h5 class="modal-title bg-success col-md-7"> Datos del Medicamento</h5>
+                    <h5 class="modal-title bg-secondary col-md-7"> Datos del Medicamento</h5>
                     <input type="text" name="historial_id" value="{{ $adulto->historialDatos->id }}" required="true"
                         style="visibility:hidden">
                     <input type="text" name="adulto_id" value="{{ $adulto->id }}" required="true"
@@ -25,7 +25,7 @@
                                 placeholder="Ingresar el nombre del medicamento" required="true">
                         </div>
                     </div>
-                    <h6 class="modal-title bg-success text-white col-md-6">Detalles de administracion</h6>
+                    <h6 class="modal-title bg-secondary text-white col-md-6">Detalles de administracion</h6>
                     <div class="form-row ">
                         <div class="form-group col-md">
                             <label>Dosis cantidad</label>
@@ -76,7 +76,7 @@
                             </select>
                         </div>
                     </div>
-                    <h6 class="modal-title bg-success text-white col-md-6">Tiempo de duracion</h6>
+                    <h6 class="modal-title bg-secondary text-white col-md-6">Tiempo de tratamiento</h6>
                     <div class="form-row ">
                         <div class="form-group col-md">
                             <label>Fecha de inicio</label>
@@ -94,8 +94,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Añadir Medicamento</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-secondary">Añadir Medicamento</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>
         </div>

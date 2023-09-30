@@ -57,9 +57,9 @@ Route::resource('patologia', PatologiaController::class);
 Route::post('/eliminar_patologia', [PatologiaController::class, 'eliminar'])->name('eliminar_patologia');
 //RUTA GENERAL DE medicamento
 Route::resource('medicamento', MedicamentoController::class);
+Route::post('/eliminar_medicamento', [MedicamentoController::class, 'eliminar'])->name('eliminar_medicamento');
 
 //Route::resource('general', GeneralController::class);
-
 Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'ver']);
 
 //

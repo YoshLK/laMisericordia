@@ -45,7 +45,7 @@ class HistorialController extends Controller
         $datosHistorial = request()->except('_token');
         
         Historial::insert($datosHistorial);
-        return redirect('/general/adulto_detalle/'.$request->adulto_id)->with('historial', 'registrado');
+        return redirect('/general/adulto_detalle/'.$request->adulto_id)->with('mensaje', 'registrado');
     }
 
     /**
@@ -86,7 +86,7 @@ class HistorialController extends Controller
         $datosHistorial = request()->except(['_token','_method']);
         Historial::where('id','=',$id)->update($datosHistorial);
         $historial=Historial::findOrFail($id);    
-        return redirect( '/general/adulto_detalle/'.$request->adulto_id)->with('historial','editado');
+        return redirect( '/general/adulto_detalle/'.$request->adulto_id)->with('mensaje','editado');
     }
 
     /**

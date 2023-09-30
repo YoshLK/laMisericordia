@@ -81,7 +81,7 @@
         </div>
         <div class="col-3">
             <!--BOTON HISTORIAL -->
-            @if (empty($adulto->historialDatos->peso))
+            @if (empty($adulto->historialDatos->id))
                 <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#createHistorial">
                     + Ficha Medidas Corporales
                 </button>
@@ -137,7 +137,7 @@
 
     <!-- DATOS FICHA CORPORALES-->
     <br>
-    @if (isset($adulto->historialDatos->peso))
+    @if (isset($adulto->historialDatos->id))
         <div class="card" style="width: 95%;">
             <h3 class="bg-info px-5" style="width: 100%">MEDIDAS CORPORALES</h3>
             <div class="row px-5 mt-2">
@@ -196,7 +196,7 @@
     </div>
 
     <!-- PATOLOGIAS - MEDICINA - ALERGIAS-->
-    @if (isset($adulto->historialDatos->peso))
+    @if (isset($adulto->historialDatos->id))
         <div class="row">
             <div class="col-3">
                 <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createPatologia">
@@ -205,7 +205,7 @@
                 @include('patologia.create')
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createMedicamento">
+                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#createMedicamento">
                     + Medicamento
                 </button>
                 @include('medicamento.create')
@@ -219,103 +219,106 @@
         <br>
     @endif
 
-    <!--TABLA PATOLOGIAS-->
-    @if (isset($adulto->historialDatos->peso))
-        <!--PATOLOGIAS TABLA-->
-        @if ($adulto->historialDatos->patologiasDatos->count())
-            <h3>
-                <p class="text-white bg-success px-5">PATOLOGIAS</p>
-            </h3>
-            <div class="table table-auto">
-                <table class="table table-bordered  table-hover ">
-                    <thead class="thead table-success">
-                        <tr>
-                            <th>Patologia:</th>
-                            <th>Fecha de diagnostico:</th>
-                            <th>Gravedad:</th>
-                            <th>Tratamiento:</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($adulto->historialDatos->patologiasDatos as $patologia)
-                            <tr>
-                                <input name="contador" value="{{ $contador = (int) $loop->iteration - 1 }}" type="hidden">
-                                <td>{{ $patologia->nombre_patologia }}</td>
-                                <td>{{ $patologia->fecha_diagnostico }}</td>
-                                <td>{{ $patologia->gravedad }}</td>
-                                <td>{{ $patologia->tratamiento_actual }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-success formulario" data-toggle="modal"
-                                        data-target="#detallePatologia{{ $contador }}">
-                                        Notas
-                                    </button>
-                                    <button type="button" class="btn btn-outline-success formulario" data-toggle="modal"
-                                        data-target="#editPatologia{{ $patologia->id }}">
-                                        Editar
-                                    </button>
-                                    <form method="POST" action="{{ route('eliminar_patologia') }}"
-                                        class="d-inline formulario-eliminar">
-                                        @csrf
-                                        <input name="id" value="{{ $patologia->id }}" type="hidden">
-                                        <input name="ruta" value="{{ $adulto->id }}" type="hidden">
-                                        <button type="submit" class="btn btn-outline-danger"
-                                            data-toggle="modal">Borrar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @include('patologia.edit')
-                            @include('patologia.detalle')
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="w-100 p-1" style="background-color: #28a745;"></div>
-            </div>
-        @endif
-    @endif
-            
 
-<!--TABLA MEDICAMENTO-->
-@if (isset($adulto->historialDatos->peso))
-        @if ($adulto->historialDatos->medicamentosDatos->count())
-            <h3>
-                <p class="text-white bg-gray px-5">MEDICAMENTOS</p>
-            </h3>
-            <div class="table table-auto">
-                <table id="medicamentos">
-                    <thead>
+    <!--PATOLOGIAS TABLA-->
+    @if (isset($adulto->historialDatos->id))
+    <div class="card card-success">
+    @if ($adulto->historialDatos->patologiasDatos->count())
+        <h3>
+            <p class="text-white bg-success px-5">PATOLOGIAS</p>
+        </h3>
+        <div class="table table-auto">
+            <table class="table table-bordered  table-hover ">
+                <thead class="thead table-success">
+                    <tr>
+                        <th>Patologia:</th>
+                        <th>Fecha de diagnostico:</th>
+                        <th>Gravedad:</th>
+                        <th>Tratamiento:</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($adulto->historialDatos->patologiasDatos as $patologia)
                         <tr>
-                            <th>Medicamento</th>
-                            <th>Dosis</th>
-                            <th>Frecuencia</th>
-                            <th>Administracion</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Final</th>
-                            <th>Conteo Dias</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($adulto->historialDatos->medicamentosDatos as $medicamento)
-                        <input name="contador" value="{{ $contador = (int) $loop->iteration - 1 }}" >
-                        <tr>
-                            <td>{{ $medicamento->nombre_medicamento }}</td>
-                            <td>{{$medicamento->cantidad_medicamento}} {{$medicamento->medida_medicamento}}</td>
-                            <td>{{$medicamento->frecuencia_tiempo}} {{$medicamento->frecuencia_dia}}</td>
-                            <td>{{ $medicamento->via_administracion }}</td>
-                            <td class="fecha-inicio">{{$medicamento->fecha_inicio}}</td>
-                            <td  class="fecha-fin">{{$medicamento->fecha_fin}}</td>  
-                            <td class="resultado"></td>
+                            <input name="contador" value="{{ $contadorPatologia = (int) $loop->iteration - 1 }}"
+                                type="hidden">
+                            <td>{{ $patologia->nombre_patologia }}</td>
+                            <td>{{ $patologia->fecha_diagnostico }}</td>
+                            <td>{{ $patologia->gravedad }}</td>
+                            <td>{{ $patologia->tratamiento_actual }}</td>
                             <td>
                                 <button type="button" class="btn btn-success formulario" data-toggle="modal"
-                                    data-target="#detallePatologia{{ $contador }}">
+                                    data-target="#detallePatologia{{ $contadorPatologia }}">
                                     Notas
                                 </button>
                                 <button type="button" class="btn btn-outline-success formulario" data-toggle="modal"
-                                    data-target="#editMedicamento{{ $medicamento->id }}">
+                                    data-target="#editPatologia{{ $patologia->id }}">
                                     Editar
                                 </button>
                                 <form method="POST" action="{{ route('eliminar_patologia') }}"
+                                    class="d-inline formulario-eliminar">
+                                    @csrf
+                                    <input name="id" value="{{ $patologia->id }}" type="hidden">
+                                    <input name="ruta" value="{{ $adulto->id }}" type="hidden">
+                                    <button type="submit" class="btn btn-outline-danger"
+                                        data-toggle="modal">Borrar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @include('patologia.edit')
+                        @include('patologia.detalle')
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="w-100 p-1" style="background-color: #28a745;"></div>
+        </div>
+    @endif
+    @endif
+</div>
+    <!--TABLA MEDICAMENTO-->
+    @if (isset($adulto->historialDatos->id))
+    <div class="card card-secondary">
+    @if ($adulto->historialDatos->medicamentosDatos->count())
+        <h3>
+            <p class="text-white bg-secondary px-5">MEDICAMENTOS</p>
+        </h3>
+        <div class="table table-auto">
+            <table id="medicamentos" class="table table-bordered  table-hover">
+                <thead class="thead table-secondary">
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Dosis</th>
+                        <th>Frecuencia</th>
+                        <th>Administracion</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Final</th>
+                        <th>Conteo Dias</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($adulto->historialDatos->medicamentosDatos as $medicamento)
+                        <tr>
+                            <input name="contador" value="{{ $contadorMedicamento = (int) $loop->iteration - 1 }}"
+                                type="hidden">
+                            <td>{{ $medicamento->nombre_medicamento }}</td>
+                            <td>{{ $medicamento->cantidad_medicamento }} {{ $medicamento->medida_medicamento }}</td>
+                            <td>{{ $medicamento->frecuencia_tiempo }} {{ $medicamento->frecuencia_dia }}</td>
+                            <td>{{ $medicamento->via_administracion }}</td>
+                            <td class="fecha-inicio">{{ $medicamento->fecha_inicio }}</td>
+                            <td class="fecha-fin">{{ $medicamento->fecha_fin }}</td>
+                            <td class="resultado"></td>
+                            <td>
+                                <button type="button" class="btn btn-secondary formulario" data-toggle="modal"
+                                    data-target="#detalleMedicamento{{ $contadorMedicamento }}">
+                                    Notas
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary formulario" data-toggle="modal"
+                                    data-target="#editMedicamento{{ $medicamento->id }}">
+                                    Editar
+                                </button>
+                                <form method="POST" action="{{ route('eliminar_medicamento') }}"
                                     class="d-inline formulario-eliminar">
                                     @csrf
                                     <input name="id" value="{{ $medicamento->id }}" type="hidden">
@@ -325,16 +328,17 @@
                                 </form>
                             </td>
                         </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <button id="calcularDiasMedicamento">Calcular Diferencias</button>
-                
-                <div class="w-100 p-1" style="background-color: #28a745;"></div>
-            </div>
-        @endif
+                        @include('medicamento.edit')
+                        @include('medicamento.detalle')
+                    @endforeach
+                </tbody>
+            </table>
+            <button id="calcularDiasMedicamento">Calcular Diferencias</button>
+            <div class="w-100 p-1" style="background-color: #6c757d;"></div>
+        </div>
     @endif
-
+    @endif
+</div>
 
 @stop
 
@@ -349,86 +353,67 @@
 
 @section('js')
 
+    <script>
+        function DiasMedicamento() {
+            const filas = document.querySelectorAll('#medicamentos tbody tr');
 
+            for (let i = 0; i < filas.length; i++) {
+                const fechaInicio = new Date(filas[i].querySelector('.fecha-inicio').textContent);
+                const fechaFinCell = filas[i].querySelector('.fecha-fin');
+                const resultadoCell = filas[i].querySelector('.resultado');
 
+                let fechaFin;
+                let plus;
 
-<script>
-    function DiasMedicamento() {
-        const filas = document.querySelectorAll('#medicamentos tbody tr');
-        
-        for (let i = 0; i < filas.length; i++) {
-            const fechaInicio = new Date(filas[i].querySelector('.fecha-inicio').textContent);
-            const fechaFinCell = filas[i].querySelector('.fecha-fin');
-            const resultadoCell = filas[i].querySelector('.resultado');
-            
-            let fechaFin;
-            
-            if (!fechaFinCell.textContent) {
-                fechaFin = new Date();
-            } else {
-                fechaFin = new Date(fechaFinCell.textContent);
+                if (!fechaFinCell.textContent) {
+                    fechaFin = new Date();
+                    plus = 0;
+                } else {
+                    fechaFin = new Date(fechaFinCell.textContent);
+                    plus = 1;
+                }
+
+                const diferencia = Math.abs(fechaFin - fechaInicio);
+                const diasDiferencia = Math.ceil(diferencia / (1000 * 3600 * 24));
+                const dias = Math.ceil(diasDiferencia + plus)
+                resultadoCell.textContent = dias + ' días';
             }
-            
-            const diferencia = Math.abs(fechaFin - fechaInicio);
-            const diasDiferencia = Math.ceil(diferencia / (1000 * 3600 * 24));
-            const prueba = Math.ceil(diasDiferencia+1)
-            resultadoCell.textContent = prueba + ' días';
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('calcularDiasMedicamento').addEventListener('click', DiasMedicamento);
-    });
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('calcularDiasMedicamento').addEventListener('click', DiasMedicamento);
+        });
+    </script>
 
-
-
-
-
-
-    @if (session('referencia') == 'registrado')
+    @if (session('mensaje') == 'registrado')
         <script>
             Swal.fire({
                 position: 'top-center',
                 icon: 'success',
-                title: 'Referencia agregada exitosamente',
-                showConfirmButton: false,
-                timer: 2000
+                title: 'Registro Agregado Exitosamente',
+                showConfirmButton: true,
             })
         </script>
     @endif
 
-    @if (session('referencia') == 'editado')
+    @if (session('mensaje') == 'editado')
         <script>
             Swal.fire({
                 position: 'top-center',
                 icon: 'success',
-                title: 'Referencia Editada exitosamente',
-                showConfirmButton: false,
-                timer: 2000
+                title: 'Registro Editado Exitosamente',
+                showConfirmButton: true,
             })
         </script>
     @endif
 
-    @if (session('referencia') == 'eliminado')
-        <script>
-            Swal.fire(
-                'Registro Eliminado!',
-                'Referencia eliminada.',
-                'success'
-            )
-        </script>
-    @endif
-
-
-    @if (session('historial') == 'registradoMedidas')
+    @if (session('mensaje') == 'eliminado')
         <script>
             Swal.fire({
-                position: 'top-center',
-                icon: 'success',
-                title: 'Medidas Corporales agregadas exitosamente',
-                showConfirmButton: false,
-                timer: 2250
+                position:'top-center',
+                icon: 'error',
+                title: 'Registro Eliminado!',
+                showConfirmButton: true,
             })
         </script>
     @endif
@@ -437,14 +422,14 @@
         $('.formulario-eliminar').submit(function(e) {
             e.preventDefault();
             Swal.fire({
-                title: 'Esta seguro de eliminar la referencia?',
+                title: 'Esta seguro de eliminar el registro?',
                 icon: 'warning',
                 color: '#c60d0d',
                 text: "Advertencia no se podra recuperar la informacion eliminada!",
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#877e7e',
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Confirmar Eliminacion!'
             }).then((result) => {
                 if (result.value) {

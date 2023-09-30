@@ -57,7 +57,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Añadir Ficha Corporal</button>
+                    <button type="submit" class="btn btn-info">Añadir Ficha Corporal</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>
