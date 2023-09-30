@@ -19,6 +19,11 @@ class Historial extends Model
     public function patologiasDatos(){
         return $this->hasMany(Patologia::class);
     } 
+
+    //relacion uno a muhcos historial a Medicamento
+    public function medicamentosDatos(){
+        return $this->hasMany(Medicamento::class);
+    } 
 }
 
 

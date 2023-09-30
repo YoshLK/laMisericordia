@@ -205,9 +205,10 @@
                 @include('patologia.create')
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createMedicina">
-                    + Medicinas
+                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createMedicamento">
+                    + Medicamento
                 </button>
+                @include('medicamento.create')
             </div>
             <div class="col-3">
                 <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#createAlergias">
@@ -218,6 +219,7 @@
         <br>
     @endif
 
+    <!--TABLA PATOLOGIAS-->
     @if (isset($adulto->historialDatos->peso))
         <!--PATOLOGIAS TABLA-->
         @if ($adulto->historialDatos->patologiasDatos->count())
@@ -228,13 +230,11 @@
                 <table class="table table-bordered  table-hover ">
                     <thead class="thead table-success">
                         <tr>
-
                             <th>Patologia:</th>
                             <th>Fecha de diagnostico:</th>
                             <th>Gravedad:</th>
                             <th>Tratamiento:</th>
                             <th>Acciones</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -264,15 +264,78 @@
                                     </form>
                                 </td>
                             </tr>
-                            <!--modal editar--->
                             @include('patologia.edit')
                             @include('patologia.detalle')
                         @endforeach
                     </tbody>
                 </table>
                 <div class="w-100 p-1" style="background-color: #28a745;"></div>
+            </div>
         @endif
     @endif
+            
+
+<!--TABLA MEDICAMENTO-->
+@if (isset($adulto->historialDatos->peso))
+        @if ($adulto->historialDatos->medicamentosDatos->count())
+            <h3>
+                <p class="text-white bg-gray px-5">MEDICAMENTOS</p>
+            </h3>
+            <div class="table table-auto">
+                <table id="medicamentos">
+                    <thead>
+                        <tr>
+                            <th>Medicamento</th>
+                            <th>Dosis</th>
+                            <th>Frecuencia</th>
+                            <th>Administracion</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Final</th>
+                            <th>Conteo Dias</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($adulto->historialDatos->medicamentosDatos as $medicamento)
+                        <input name="contador" value="{{ $contador = (int) $loop->iteration - 1 }}" >
+                        <tr>
+                            <td>{{ $medicamento->nombre_medicamento }}</td>
+                            <td>{{$medicamento->cantidad_medicamento}} {{$medicamento->medida_medicamento}}</td>
+                            <td>{{$medicamento->frecuencia_tiempo}} {{$medicamento->frecuencia_dia}}</td>
+                            <td>{{ $medicamento->via_administracion }}</td>
+                            <td class="fecha-inicio">{{$medicamento->fecha_inicio}}</td>
+                            <td  class="fecha-fin">{{$medicamento->fecha_fin}}</td>  
+                            <td class="resultado"></td>
+                            <td>
+                                <button type="button" class="btn btn-success formulario" data-toggle="modal"
+                                    data-target="#detallePatologia{{ $contador }}">
+                                    Notas
+                                </button>
+                                <button type="button" class="btn btn-outline-success formulario" data-toggle="modal"
+                                    data-target="#editMedicamento{{ $medicamento->id }}">
+                                    Editar
+                                </button>
+                                <form method="POST" action="{{ route('eliminar_patologia') }}"
+                                    class="d-inline formulario-eliminar">
+                                    @csrf
+                                    <input name="id" value="{{ $medicamento->id }}" type="hidden">
+                                    <input name="ruta" value="{{ $adulto->id }}" type="hidden">
+                                    <button type="submit" class="btn btn-outline-danger"
+                                        data-toggle="modal">Borrar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <button id="calcularDiasMedicamento">Calcular Diferencias</button>
+                
+                <div class="w-100 p-1" style="background-color: #28a745;"></div>
+            </div>
+        @endif
+    @endif
+
+
 @stop
 
 
@@ -285,6 +348,44 @@
 
 
 @section('js')
+
+
+
+
+<script>
+    function DiasMedicamento() {
+        const filas = document.querySelectorAll('#medicamentos tbody tr');
+        
+        for (let i = 0; i < filas.length; i++) {
+            const fechaInicio = new Date(filas[i].querySelector('.fecha-inicio').textContent);
+            const fechaFinCell = filas[i].querySelector('.fecha-fin');
+            const resultadoCell = filas[i].querySelector('.resultado');
+            
+            let fechaFin;
+            
+            if (!fechaFinCell.textContent) {
+                fechaFin = new Date();
+            } else {
+                fechaFin = new Date(fechaFinCell.textContent);
+            }
+            
+            const diferencia = Math.abs(fechaFin - fechaInicio);
+            const diasDiferencia = Math.ceil(diferencia / (1000 * 3600 * 24));
+            const prueba = Math.ceil(diasDiferencia+1)
+            resultadoCell.textContent = prueba + ' días';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('calcularDiasMedicamento').addEventListener('click', DiasMedicamento);
+    });
+</script>
+
+
+
+
+
+
     @if (session('referencia') == 'registrado')
         <script>
             Swal.fire({

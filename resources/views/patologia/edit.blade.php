@@ -55,8 +55,6 @@
                             placeholder="Información adicional relevante sobre la patología, síntomas, resultados o recomendaciones médicas.">{{ $patologia->notas_patologia }}</textarea>
                     </div>
                 </div>
-                <input type="text" name="adulto_id" class="form-control" value="{{ $referencia->adulto_id }}"
-                    required="true" style="visibility:hidden">
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-warning">Guardar Cambios</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

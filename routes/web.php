@@ -7,6 +7,7 @@ use App\Http\Controllers\ReferenciaController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\PatologiaController;
+use App\Http\Controllers\MedicamentoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,15 +51,16 @@ Route::resource('adulto', AdultoController::class);
 Route::resource('referencia', ReferenciaController::class);
 //RUTA GENERAL DE Historial
 Route::resource('historial', HistorialController::class);
-//RUTA GENERAL DE Historial
+//RUTA GENERAL DE patologia
 Route::resource('patologia', PatologiaController::class);
 //Ruta eliminar patologia
 Route::post('/eliminar_patologia', [PatologiaController::class, 'eliminar'])->name('eliminar_patologia');
-//RUTA GENERAL DE ADULTOS
+//RUTA GENERAL DE medicamento
+Route::resource('medicamento', MedicamentoController::class);
+
 //Route::resource('general', GeneralController::class);
 
-Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'verReferencias']);
-Route::get('/general/adulto_detalle/',[App\Http\Controllers\GeneralController::class, 'verPatologias']);
+Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'ver']);
 
 //
 // routes/web.php

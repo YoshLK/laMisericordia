@@ -14,7 +14,7 @@ class GeneralController extends Controller
         return view('general.adulto_detalle');
     }
 
-    public function verReferencias($id)  
+    public function ver($id)  
     {       
         $adulto=Adulto::where('id','=',$id)->first();
         return view('general.adulto_detalle', compact('adulto'));
