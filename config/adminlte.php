@@ -324,13 +324,14 @@ return [
             'icon'    => 'fas fa-fw fa-user',
             'submenu' => [
                 [
-                    'text' => 'Lista Adultos Mayores',
-                    'route' => 'adulto.index',
-                ],
-                [
                     'text' => 'Nuevo Registro',
                     'route' => 'adulto.create',
                 ],
+                [
+                    'text' => 'Adultos Mayores Activos',
+                    'route' => 'adulto.index',
+                ],
+                
             ],
         ],
         ['header' => 'Personal Operativo'],

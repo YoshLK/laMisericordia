@@ -11,7 +11,7 @@ class AdultoController extends Controller
     // leer VER todos los registros
     public function index()  
     {       
-        $datos['adultos']=Adulto::paginate(100); //traer 5 empleados
+        $datos['adultos'] = Adulto::where('estado_actual', 'Activo')->paginate(); //traer 5 empleados
         return view('adulto.index',$datos); //pasando datos a la vista
     }
 
@@ -58,12 +58,12 @@ class AdultoController extends Controller
         return redirect('adulto')->with('mensaje','registrado');
         
     }
-
+   
     // Visualizar detalle de un solo registro
-    public function show(int $id)
+    public function show(Adulto $adulto)
     {
-        $adulto=Adulto::where('id','=',$id)->first();
-        return view('adulto.show', compact('adulto'));
+        //$adulto=Adulto::where('id','=',$id)->first();
+        //return view('adulto.inactivo');
     }
 
      // abrir formulario para edicion
@@ -118,5 +118,5 @@ class AdultoController extends Controller
             Adulto::destroy($id);
         }
         return redirect('adulto')->with('mensaje','eliminado');
-    }
+    } 
 }

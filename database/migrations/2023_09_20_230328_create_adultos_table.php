@@ -24,6 +24,8 @@ return new class extends Migration
             $table->integer('edad')->nullanble(false);
             $table->string('estado_actual',25)->nullanble(false);
             $table->string('foto')->nullable(true);
+            $table->date('fecha_salida')->nullable(true);
+            $table->string('motivo',100)->nullable(true);
             $table->timestamps();
         });
     }

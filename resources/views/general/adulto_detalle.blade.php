@@ -67,6 +67,20 @@
                 </b> {{ $adulto->estado_actual }}</span> </h5>
             </div>
         </div>
+        @if ($adulto->estado_actual=="Inactivo")
+        <div class="row px-5 mt-2">
+            <div class="col-5">
+                <b>
+                    <h5>Fecha de salida: 
+                </b>{{ $adulto->fecha_salida }}</span> </h5>
+            </div>
+            <div class="col-5">
+                <b>
+                    <h5>Motivo: 
+                </b>{{ $adulto->motivo }}</span> </h5>
+            </div>
+        </div>
+        @endif
         <div class="w-100 p-1" style="background-color: #343a40;"></div>
         <br>
     </div>
@@ -80,7 +94,7 @@
             @include('referencia.create')
         </div>
         <div class="col-3">
-            <!--BOTON HISTORIAL -->
+            <!--BOTON MEDIDAS CORPORALES -->
             @if (empty($adulto->historialDatos->id))
                 <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#createHistorial">
                     + Ficha Medidas Corporales

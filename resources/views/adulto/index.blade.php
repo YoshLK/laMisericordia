@@ -16,12 +16,13 @@
     <table id="adultos" class="table table-wite">
         <thead class="thead table-primary">
             <tr>
-                <th>#</th>
                 <th>Foto</th>
-                <th>Primer Nombre</th>
-                <th>Segundo Nombre</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Ingreso</th>
+                <th>Salida</th>
+                <th>Tiempo</th>
+                <th>Patologias</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -29,28 +30,37 @@
 
             @foreach ($adultos as $adulto)
                 <tr>
-                    <td>{{ $adulto->id }}</td>
                     <td>
-                        <img class="img-thumbnail img-fluid" src="{{ asset('storage') . '/' . $adulto->foto }}"
-                            width="100">
+                        <img class="img-thumbnail img-fluid" src="{{ asset('storage') . '/' . $adulto->foto }}" width="100">
                     </td>
-                    <td>{{ $adulto->primer_nombre }}</td>
-                    <td>{{ $adulto->segundo_nombre }}</td>
-                    <td>{{ $adulto->primer_apellido }}</td>
-                    <td>{{ $adulto->segundo_apellido }}</td>
+                    <td>{{ $adulto->primer_nombre }} {{ $adulto->segundo_nombre }}</td>
+                    <td>{{ $adulto->primer_apellido }} {{ $adulto->segundo_apellido }}</td>
+                    <td class="fecha-inicio">{{ $adulto->fecha_ingreso }}</td>
+                    <td class="fecha-fin">{{ $adulto->fecha_salida }}</td>
+                    <td class="resultado"></td>
                     <td>
-                        <a href="{{ url('/general/adulto_detalle/' . $adulto->id) }}" class="btn btn-info">
-                            Detalle
+                    @if (isset($adulto->historialDatos->id))
+                    @foreach ($adulto->historialDatos->patologiasDatos as $patologia)
+                    {{ $loop->iteration}}) {{$patologia->nombre_patologia}}
+                    <br>
+                    @endforeach
+                    @endif
+                </td>
+                    <td>
+                        <a href="{{ url('/general/adulto_detalle/' . $adulto->id) }}"
+                            class="btn btn-xs btn-info text-light mx-1 shadow" title="Detalle">
+                            <i class="fa fa-lg fa-fw fa-eye"></i>Detalle
                         </a>
-                        |
-                        <a href="{{ url('/adulto/' . $adulto->id . '/edit') }}" class="btn btn-warning">
-                            Editar
-                        </a> |
+                        <a href="{{ url('/adulto/' . $adulto->id . '/edit') }}"
+                            class="btn btn-xs btn-primary   text-light   mx-1 shadow" title="Editar">
+                            <i class="fa fa-lg fa-fw fa-pen"></i>Editar
+                        </a>
                         <form action="{{ route('adulto.destroy', $adulto->id) }}" class="d-inline formulario-eliminar"
                             method="post">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger">Borrar</button>
+                            <button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Borrar"><i
+                                    class="fa fa-lg fa-fw fa-trash"></i>Eliminar</button>
                         </form>
                     </td>
                 </tr>
@@ -59,16 +69,8 @@
         </tbody>
     </table>
     {!! $adultos->links() !!}
+    <button id="calcularEstancia">Calcular Estancia</button>
 
-    <button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Borrar">
-        <i class="fa fa-lg fa-fw fa-trash"></i>
-    </button>
-    <button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Detalle">
-        <i class="fa fa-lg fa-fw fa-eye"></i>
-    </button>
-    <button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
-        <i class="fa fa-lg fa-fw fa-pen"></i>
-    </button>
 @stop
 
 @section('css')
@@ -77,36 +79,82 @@
 
 @section('js')
 
-<script>
-    $(document).ready(function(){
-        $('#adultos').DataTable();
-    } );
-    </script>    
+    <script>
+        function TiempoEstancia() {
+            const filas = document.querySelectorAll('#adultos tbody tr');
+
+            for (let i = 0; i < filas.length; i++) {
+                const fechaInicio = new Date(filas[i].querySelector('.fecha-inicio').textContent);
+                const fechaFinCell = filas[i].querySelector('.fecha-fin');
+                const resultadoCell = filas[i].querySelector('.resultado');
+
+                let fechaFin;
+                if (!fechaFinCell.textContent) {
+                    fechaFin = new Date();
+                } else {
+                    fechaFin = new Date(fechaFinCell.textContent);
+                }
+
+                const diferencia = Math.abs(fechaFin - fechaInicio);
+                const diasDiferencia = Math.ceil(diferencia / (1000 * 3600 * 24));
+                const dias = Math.ceil(diasDiferencia)
+
+                const anios = Math.floor(dias / 365);
+                dia = dias - (anios * 365);
+
+                const meses = Math.floor(dia / 31);
+                dia -= meses * 31;
+
+                if (anios != 0) {
+                    aniosText = anios + ' Años ';
+                } else {
+                    aniosText = "";
+                }
+
+                if (meses != 0) {
+                    mesesText = meses + ' Meses ';
+                } else {
+                    mesesText = "";
+                }
+
+                resultadoCell.textContent = aniosText + mesesText + dia + ' Dias' + " @ " + dias;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('calcularEstancia').addEventListener('click', TiempoEstancia);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#adultos').DataTable();
+        });
+    </script>
 
 
 
     @if (session('mensaje') == 'registrado')
-    <script>
-        Swal.fire({
-        position: 'top-center',
-        icon: 'success',
-        title: 'Adulto agregado exitosamente',
-        showConfirmButton: false,
-        timer: 2000
-        })
-    </script>
+        <script>
+            Swal.fire({
+                position: 'top-center',
+                icon: 'success',
+                title: 'Adulto agregado exitosamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
     @endif
 
     @if (session('mensaje') == 'editado')
-    <script>
-        Swal.fire({
-        position: 'top-center',
-        icon: 'success',
-        title: 'Adulto Editado exitosamente',
-        showConfirmButton: false,
-        timer: 2000
-        })
-    </script>
+        <script>
+            Swal.fire({
+                position: 'top-center',
+                icon: 'success',
+                title: 'Adulto Editado exitosamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
     @endif
 
     @if (session('mensaje') == 'eliminado')
