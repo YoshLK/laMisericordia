@@ -5,16 +5,16 @@
 @section('plugins.Datatables', true)
 
 @section('content_header')
-    <h1 class="text-center">Registros de Adultos Mayores</h1>
+    <h1 class="text-center bg-info ">Registros de Adultos Mayores</h1>
 @stop
 
 @section('content')
 
-    <a href="{{ url('adulto/create') }}" class="btn btn-success"> Registrar Nuevo Adulto Mayor</a>
+    <a href="{{ url('adulto/create') }}" class="btn btn-outline-success"> + Registrar Nuevo Adulto Mayor</a>
     <br />
     <br />
     <table id="adultos" class="table table-wite">
-        <thead class="thead table-primary">
+        <thead class="thead table-info ">
             <tr>
                 <th>Foto</th>
                 <th>Nombres</th>
@@ -23,6 +23,7 @@
                 <th>Salida</th>
                 <th>Tiempo</th>
                 <th>Patologias</th>
+                <th>Medicina</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -37,15 +38,21 @@
                     <td>{{ $adulto->primer_apellido }} {{ $adulto->segundo_apellido }}</td>
                     <td class="fecha-inicio">{{ $adulto->fecha_ingreso }}</td>
                     <td class="fecha-fin">{{ $adulto->fecha_salida }}</td>
-                    <td class="resultado"></td>
+                    <td class="resultado"></td> 
                     <td>
-                    @if (isset($adulto->historialDatos->id))
-                    @foreach ($adulto->historialDatos->patologiasDatos as $patologia)
-                    {{ $loop->iteration}}) {{$patologia->nombre_patologia}}
-                    <br>
-                    @endforeach
-                    @endif
-                </td>
+                        @if (isset($adulto->historialDatos->id))
+                            @foreach ($adulto->historialDatos->patologiasDatos as $patologia)
+                                <li>{{ $patologia->nombre_patologia }}</li>
+                            @endforeach
+                        @endif
+                    </td>
+                    <td>
+                        @if (isset($adulto->historialDatos->id))
+                            @foreach ($adulto->historialDatos->medicamentosDatos as $medicamento)
+                                <li>{{ $medicamento->nombre_medicamento }}</li>
+                            @endforeach
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ url('/general/adulto_detalle/' . $adulto->id) }}"
                             class="btn btn-xs btn-info text-light mx-1 shadow" title="Detalle">
@@ -59,6 +66,8 @@
                             method="post">
                             @csrf
                             @method('DELETE')
+                            <input name="ruta" type="hidden">
+                            <input name="id" value="{{ $adulto->id }}" type="hidden">
                             <button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Borrar"><i
                                     class="fa fa-lg fa-fw fa-trash"></i>Eliminar</button>
                         </form>
@@ -68,7 +77,7 @@
 
         </tbody>
     </table>
-    {!! $adultos->links() !!}
+    <!--{//!! $adultos->links() !!}-->
     <button id="calcularEstancia">Calcular Estancia</button>
 
 @stop
@@ -119,6 +128,47 @@
 
                 resultadoCell.textContent = aniosText + mesesText + dia + ' Dias' + " @ " + dias;
             }
+            $('#adultos').DataTable().destroy();
+            $('#adultos').DataTable({
+                language: {
+                    "processing": "Procesando...",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "zeroRecords": "No se encontraron resultados",
+                    "emptyTable": "Ningún dato disponible en esta tabla",
+                    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "search": "Buscar:",
+                    "loadingRecords": "Cargando...",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                responsive: "true",
+                dom: 'lBfrtip',
+                buttons: [{
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        titleAttr: 'Exportar a excel',
+                        className: 'btn btn-success',
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger',
+                    },
+                    {   
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-info',
+                    },
+                ],
+           });
         }
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('calcularEstancia').addEventListener('click', TiempoEstancia);
@@ -127,7 +177,46 @@
 
     <script>
         $(document).ready(function() {
-            $('#adultos').DataTable();
+           $('#adultos').DataTable({
+                language: {
+                    "processing": "Procesando...",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "zeroRecords": "No se encontraron resultados",
+                    "emptyTable": "Ningún dato disponible en esta tabla",
+                    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "search": "Buscar:",
+                    "loadingRecords": "Cargando...",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                responsive: "true",
+                dom: 'lBfrtip',
+                buttons: [{
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        titleAttr: 'Exportar a excel',
+                        className: 'btn btn-success',
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger',
+                    },
+                    {   
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-info',
+                    },
+                ],
+           });
         });
     </script>
 

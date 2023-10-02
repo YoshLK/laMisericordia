@@ -331,7 +331,10 @@ return [
                     'text' => 'Adultos Mayores Activos',
                     'route' => 'adulto.index',
                 ],
-                
+                [
+                    'text' => 'Inactivos',
+                    'route' => 'adulto.inactivo',
+                ],
             ],
         ],
         ['header' => 'Personal Operativo'],
@@ -403,6 +406,32 @@ return [
                     'type' => 'css',
                     'asset' => false,
                     'location' => 'vendor/DataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css',
+                ],
+
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/DataTables/Buttons-2.4.2/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/DataTables/JSZip-3.10.1/jszip.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/DataTables/pdfmake-0.2.7/pdfmake.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/DataTables/pdfmake-0.2.7/vfs_fonts.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/DataTables/Buttons-2.4.2/js/buttons.html5.min.js',
                 ],
             ],
         ],

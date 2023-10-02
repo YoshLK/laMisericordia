@@ -11,7 +11,7 @@ class AdultoController extends Controller
     // leer VER todos los registros
     public function index()  
     {       
-        $datos['adultos'] = Adulto::where('estado_actual', 'Activo')->paginate(); //traer 5 empleados
+        $datos['adultos'] = Adulto::where('estado_actual', 'Activo')->get(); //traer 5 empleados
         return view('adulto.index',$datos); //pasando datos a la vista
     }
 
@@ -109,14 +109,24 @@ class AdultoController extends Controller
     }
 
     // eliminar registro
-    public function destroy($id)
-    {
+    public function destroy(Request $request)
+    {   
+        $ruta = $request->input('ruta');
+        $id = $request->input('id');
         $adulto=Adulto::findOrFail($id);
         if (Storage::delete('public/'.$adulto->foto)){
             Adulto::destroy($id);
         }else if ($adulto->id=$id){
             Adulto::destroy($id);
         }
-        return redirect('adulto')->with('mensaje','eliminado');
+        $rutaDireccion = $ruta ? 'adulto.' . $ruta : 'adulto.index';
+        return redirect()->route($rutaDireccion)->with('mensaje', 'eliminado');
     } 
+
+    //inactivo
+    public function inactivo()
+{
+    $adultosInactivos = Adulto::where('estado_actual', 'Inactivo')->get();
+    return view('adulto.inactivo', compact('adultosInactivos'));
+}
 }

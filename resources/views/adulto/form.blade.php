@@ -11,10 +11,10 @@
     @endif
 </h5>
 <h3 class="text-center">
-    <strong class="bg-skyblue">FORMULARIO ADULTO MAYOR</strong>
+    <b> FORMULARIO ADULTO MAYOR<b>
 </h3>
 <div class="row-auto">
-    <h3> <span class="fas fa-user  badge text-green bg-warning rounded-pill"> Nombre del adulto mayor</span> </h3>
+    <h3> <span class="fas fa-user  {{ $ColorFormato }}"> Nombre del adulto mayor</span> </h3>
 </div>
 <div class="row">
     <div class="col-auto">
@@ -39,7 +39,7 @@
     </div>
 </div>
 <div class="row-auto px-2 py-3">
-    <h3> <span class="fas fa-address-card badge bg-warning rounded-pill"> Credenciales</span> </h3>
+    <h3> <span class="fas fa-address-card {{ $ColorFormato }}"> Credenciales</span> </h3>
 </div>
 <div class="row">
     <div class="col-2">
@@ -70,7 +70,7 @@
     </div>
 </div>
 <div class="row-auto px-2 py-3">
-    <h3> <span class="fas fa-user  badge text-green bg-warning  rounded-pill"> Iformacion adicional</span> </h3>
+    <h3> <span class="fas fa-user {{ $ColorFormato }}"> Iformacion adicional</span> </h3>
 </div>
 <div class="row">
     <div class="col-auto">
@@ -108,7 +108,6 @@
                 value="{{ isset($adulto->motivo) ? $adulto->motivo : old('motivo') }}"></label>
     </div>
 </div>
-
 
 <div class="row px-3 py-3">
     <div class="col-auto">

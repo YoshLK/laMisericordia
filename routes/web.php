@@ -8,6 +8,7 @@ use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\PatologiaController;
 use App\Http\Controllers\MedicamentoController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +25,11 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+/*
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
+*/
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -46,6 +48,9 @@ Route::get('/adulto/create',[AdultoController::class,'create']);
 */
 
 //RUTA GENERAL DE ADULTOS
+//Route::resource('adulto', AdultoController::class);
+Route::post('adulto/inactivo', [AdultoController::class, 'inactivo'])->name('adulto.inactivo');
+Route::get('adulto/inactivo', [AdultoController::class, 'inactivo'])->name('adulto.inactivo');
 Route::resource('adulto', AdultoController::class);
 //RUTA GENERAL DE REFERENCIAS
 Route::resource('referencia', ReferenciaController::class);
@@ -61,6 +66,8 @@ Route::post('/eliminar_medicamento', [MedicamentoController::class, 'eliminar'])
 
 //Route::resource('general', GeneralController::class);
 Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'ver']);
+//Dashboard
+Route::get('dashboard', [DashboardController::class, 'adultosDashboard'])->name('dashboard');
 
 //
 // routes/web.php

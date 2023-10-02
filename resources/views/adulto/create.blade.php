@@ -12,7 +12,7 @@
         <form action="{{ url('/adulto') }}" method="post" enctype="multipart/form-data"
             class="px-4 py-2 border border-info rounded-lg formulario-guardar" style="width: 300px height:75px">
             @csrf
-            @include('adulto.form', ['modo' => 'Guardar', 'color' => 'outline-success'])
+            @include('adulto.form', ['modo' => 'Guardar', 'color' => 'outline-success', 'ColorFormato'=>'badge text-green bg-success rounded-pill'])
         </form>
     </div>
 
