@@ -67,7 +67,11 @@ Route::post('/eliminar_medicamento', [MedicamentoController::class, 'eliminar'])
 //Route::resource('general', GeneralController::class);
 Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'ver']);
 //Dashboard
+Route::get('/grafica-medicinas', [DashboardController::class,'graficaMedicinas'])->name('grafica-medicinas');
+Route::get('/conteo-activos', [DashboardController::class,'conteoActivos'])->name('conteo-activos');
 Route::get('dashboard', [DashboardController::class, 'adultosDashboard'])->name('dashboard');
+//boton
+
 
 //
 // routes/web.php

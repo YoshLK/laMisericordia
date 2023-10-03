@@ -30,7 +30,7 @@ class MedicamentoController extends Controller
     {
         $campos=[
             'nombre_medicamento'=>'required|string|max:50',
-            'cantidad_medicamento'=>'required|integer',
+            'cantidad_medicamento'=>'required|numeric',
             'medida_medicamento'=>'required|string|max:30',
             'via_administracion'=>'required|string|max:50',
             'frecuencia_tiempo'=>'required|integer',
@@ -74,7 +74,7 @@ class MedicamentoController extends Controller
     {
         $campos=[
             'nombre_medicamento'=>'required|string|max:50',
-            'cantidad_medicamento'=>'required|integer',
+            'cantidad_medicamento'=>'required|numeric',
             'medida_medicamento'=>'required|string|max:30',
             'via_administracion'=>'required|string|max:50',
             'frecuencia_tiempo'=>'required|integer',

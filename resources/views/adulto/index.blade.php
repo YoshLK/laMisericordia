@@ -49,7 +49,7 @@
                     <td>
                         @if (isset($adulto->historialDatos->id))
                             @foreach ($adulto->historialDatos->medicamentosDatos as $medicamento)
-                                <li>{{ $medicamento->nombre_medicamento }}</li>
+                                <li>{{ $medicamento->nombre_medicamento }} {{ $medicamento->cantidad_medicamento }} {{ $medicamento->medida_medicamento }} Frec: {{ $medicamento->frecuencia_tiempo }} {{ $medicamento->frecuencia_dia }} </li>
                             @endforeach
                         @endif
                     </td>
