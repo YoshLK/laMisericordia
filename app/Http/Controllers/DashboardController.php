@@ -3,22 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Adulto;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function AdultosDashboard()
     {
-        $conteoActivo = Adulto::where('estado_actual', 'Activo')->count();
-        $conteoInactivos = Adulto::where('estado_actual', 'Inactivo')->count();
+        $conteoActivo = DB::table('adultos')->where('estado_actual', 'Activo')->count();
+        $conteoInactivos = DB::table('adultos')->where('estado_actual', 'Inactivo')->count();
 
-        $hoy = now();
-        $cumples = Adulto::select('*')
-            ->where('estado_actual', 'activo')
-            ->whereRaw('DATE_ADD(fecha_nacimiento, INTERVAL YEAR(CURDATE()) - YEAR(fecha_nacimiento) YEAR) >= CURDATE()')
-            ->whereRaw('DATE_ADD(fecha_nacimiento, INTERVAL YEAR(CURDATE()) - YEAR(fecha_nacimiento) YEAR) <= DATE_ADD(CURDATE(), INTERVAL 30 DAY)')
-            ->get();
+        //$hoy = now();
+       
+
+        $cumplesAdultos = DB::table('adultos')
+        ->where('estado_actual', 'activo')
+        ->whereRaw('DATE_ADD(fecha_nacimiento, INTERVAL YEAR(CURDATE()) - YEAR(fecha_nacimiento) YEAR) >= CURDATE()')
+        ->whereRaw('DATE_ADD(fecha_nacimiento, INTERVAL YEAR(CURDATE()) - YEAR(fecha_nacimiento) YEAR) <= DATE_ADD(CURDATE(), INTERVAL 30 DAY)')
+        ->get();
+
+        $cumplesPersonals = DB::table('Personals')
+        ->where('estado_actual', 'activo')
+        ->whereRaw('DATE_ADD(fecha_nacimiento, INTERVAL YEAR(CURDATE()) - YEAR(fecha_nacimiento) YEAR) >= CURDATE()')
+        ->whereRaw('DATE_ADD(fecha_nacimiento, INTERVAL YEAR(CURDATE()) - YEAR(fecha_nacimiento) YEAR) <= DATE_ADD(CURDATE(), INTERVAL 30 DAY)')
+        ->get();
 
         $enfermedades = DB::table('patologias')
         ->leftJoin('historials', 'patologias.historial_id', '=', 'historials.id')
@@ -40,7 +47,8 @@ class DashboardController extends Controller
         return view('dashboard', [
             'conteoActivo' => $conteoActivo,
             'conteoInactivos' => $conteoInactivos,
-            'cumples'=> $cumples,
+            'cumplesAdultos'=> $cumplesAdultos,
+            'cumplesPersonals'=> $cumplesPersonals,
             'enfermedades'=>$enfermedades,
             'medicinas'=>$medicinas,
             'sumaMedicina'=>$sumaMedicina,

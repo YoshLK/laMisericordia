@@ -9,29 +9,52 @@
 @stop
 
 @section('content')
-    <p>Dashbord En proceso</p>
-    <div class="row px-5 mt-2">
-        <div class="col-4">
+    <p>Dashbord ... En Proceso</p>
+    <div class="card" style="width: 75%;">
+        <div class="row px-5 mt-2">
+            <div class="col-4">
+                <x-adminlte-small-box class="text-center " title="{{ $conteoActivo }}" text="Adultos Activos" theme="purple"
+                    url="adulto" url-text="VER" style="width: 75%" />
+            </div>
+            <div class="col-4">
+                <x-adminlte-small-box class="text-center " title="{{ $conteoInactivos }}" text="Adultos Inactivos"
+                    theme="danger" url="adulto/inactivo" url-text="VER" style="width: 75%" />
+            </div>
+        </div>
+    </div>
+
+    <div class="card-columns" style="width: 75%;">
+        <div class="card-auto">
+             <div class="card-body">
             <x-adminlte-small-box class="text-center " title="{{ $conteoActivo }}" text="Adultos Activos" theme="purple"
                 url="adulto" url-text="VER" style="width: 75%" />
         </div>
-        <div class="col-4">
+    </div>
+        <div class="card-auto">
             <x-adminlte-small-box class="text-center " title="{{ $conteoInactivos }}" text="Adultos Inactivos"
                 theme="danger" url="adulto/inactivo" url-text="VER" style="width: 75%" />
         </div>
-        <div class="col-4">
-            <div class="card card-warning bg-pink" style="width:75%">
-                <div class="card-header">
-                    <h3 class="card-title">Proximos Cumpleaños</h3>
-                </div>
-                <div class="card-body">
-                    <ol type="1">
-                        @foreach ($cumples as $adulto)
-                            <li>{{ $adulto->primer_nombre }} {{ $adulto->segundo_nombre }} {{ $adulto->primer_apellido }}
-                                {{ $adulto->segundo_apellido }} - {{ $adulto->fecha_nacimiento }}</li>
-                        @endforeach
-                    </ol>
-                </div>
+    </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card card-warning bg-pink" style="width:75%">
+            <div class="card-header">
+                <h3 class="card-title">Proximos Cumpleaños</h3>
+            </div>
+            <div class="card-body">
+                <ol type="1">
+                    @foreach ($cumplesAdultos as $cumpleAdulto)
+                        <li>{{ $cumpleAdulto->primer_nombre }} {{ $cumpleAdulto->segundo_nombre }}
+                            {{ $cumpleAdulto->primer_apellido }}
+                            {{ $cumpleAdulto->segundo_apellido }} - {{ $cumpleAdulto->fecha_nacimiento }}</li>
+                    @endforeach
+                    @foreach ($cumplesPersonals as $cumplePersonal)
+                        <li>{{ $cumplePersonal->primer_nombre }} {{ $cumplePersonal->segundo_nombre }}
+                            {{ $cumplePersonal->primer_apellido }}
+                            {{ $cumplePersonal->segundo_apellido }} - {{ $cumplePersonal->fecha_nacimiento }}</li>
+                    @endforeach
+                </ol>
             </div>
         </div>
     </div>
@@ -43,8 +66,8 @@
         <div class="card-body">
             @foreach ($enfermedades as $enfermedad)
                 {{ $enfermedad->nombre_patologia }}: {{ $enfermedad->cantidad_repeticiones }} <x-adminlte-progress
-                    theme="orange" value="{{ ($enfermedad->cantidad_repeticiones / $conteoActivo) * 100 }}" vertical striped
-                    with-label />
+                    theme="orange" value="{{ ($enfermedad->cantidad_repeticiones / $conteoActivo) * 100 }}" vertical
+                    striped with-label />
             @endforeach
         </div>
     </div>

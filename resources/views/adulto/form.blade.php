@@ -66,7 +66,8 @@
             class="form-control rounded-pill btn-outline-primary">
     </div>
     <div class="col-2">
-        <img class="mw-100" id="viewFoto">
+        <label id="cambio" style="display: none;">Remplazo
+        <img class="mw-100" id="viewFoto"></label>
     </div>
 </div>
 <div class="row-auto px-2 py-3">
@@ -136,11 +137,33 @@
                 }
             });
 
-            // Verificar el estado inicial
             if (selectEstado.value === 'Inactivo') {
                 labelInfoAdicional1.style.display = 'block';
                 labelInfoAdicional2.style.display = 'block';
             }
+        });
+    </script>
+
+    <script> 
+    const cambioFoto = document.getElementById('cambio');
+     const $select_Foto = document.querySelector("#selectFoto"),
+            $viewFoto = document.querySelector("#viewFoto");
+    
+        $select_Foto.addEventListener("change", () => {
+
+            const archivos = $select_Foto.files;
+
+            if (!archivos || !archivos.length) {
+                $viewFoto.src = "";
+                $cambioFoto.style.display = 'none';
+                return;
+            }
+            
+            const primerArchivo = archivos[0];
+            const objectURL = URL.createObjectURL(primerArchivo);
+           
+            $viewFoto.src = objectURL;
+            cambioFoto.style.display = 'block';
         });
     </script>
 

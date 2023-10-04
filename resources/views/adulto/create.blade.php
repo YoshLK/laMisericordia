@@ -32,22 +32,7 @@
 
 @section('js')
     <script>
-        const $select_Foto = document.querySelector("#selectFoto"),
-            $viewFoto = document.querySelector("#viewFoto");
-        $select_Foto.addEventListener("change", () => {
-
-            const archivos = $select_Foto.files;
-
-            if (!archivos || !archivos.length) {
-                $viewFoto.src = "";
-                return;
-            }
-
-            const primerArchivo = archivos[0];
-            const objectURL = URL.createObjectURL(primerArchivo);
-
-            $viewFoto.src = objectURL;
-        });
+       
     </script>
 
 @stop

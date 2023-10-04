@@ -293,6 +293,10 @@ return [
     'menu' => [
         // Navbar items:
         [
+            'type'         => 'darkmode-widget',
+            'topnav_right' => true, // Or "topnav => true" to place on the left.
+        ],
+        [
             'type'         => 'navbar-search',
             'text'         => 'Busqueda',
             'topnav_right' => false,
@@ -305,7 +309,7 @@ return [
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'Buscar',
         ],
         [
             'text' => 'blog',
@@ -321,7 +325,7 @@ return [
         ['header' => 'Adultos Mayores'],
         [
             'text'    => 'Adultos',
-            'icon'    => 'fas fa-fw fa-user',
+            'icon'    => 'fas fa-fw fa-user-plus',
             'submenu' => [
                 [
                     'text' => 'Nuevo Registro',
@@ -340,15 +344,15 @@ return [
         ['header' => 'Personal Operativo'],
         [
             'text'    => 'Personal',
-            'icon'    => 'fas fa-fw fa-user',
+            'icon'    => 'fas fa-fw fa-plus-square',
             'submenu' => [
                 [
-                    'text' => 'Lista Personal ',
-                    'url'  => 'admin/blog',
+                    'text' => 'Nuevo Registro',
+                    'route' => 'personal.create',
                 ],
                 [
-                    'text' => 'Nuevo Registro',
-                    'url'  => 'admin/blog',
+                    'text' => 'Lista Personal',
+                    'route' => 'personal.index',
                 ],
             ],
         ],

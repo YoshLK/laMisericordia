@@ -9,6 +9,7 @@ use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\PatologiaController;
 use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PersonalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +50,7 @@ Route::get('/adulto/create',[AdultoController::class,'create']);
 
 //RUTA GENERAL DE ADULTOS
 //Route::resource('adulto', AdultoController::class);
-Route::post('adulto/inactivo', [AdultoController::class, 'inactivo'])->name('adulto.inactivo');
+//Route::post('adulto/inactivo', [AdultoController::class, 'inactivo'])->name('adulto.inactivo');
 Route::get('adulto/inactivo', [AdultoController::class, 'inactivo'])->name('adulto.inactivo');
 Route::resource('adulto', AdultoController::class);
 //RUTA GENERAL DE REFERENCIAS
@@ -70,7 +71,10 @@ Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralControlle
 Route::get('/grafica-medicinas', [DashboardController::class,'graficaMedicinas'])->name('grafica-medicinas');
 Route::get('/conteo-activos', [DashboardController::class,'conteoActivos'])->name('conteo-activos');
 Route::get('dashboard', [DashboardController::class, 'adultosDashboard'])->name('dashboard');
-//boton
+
+
+//RUTA GENERAL PERSONAL
+Route::resource('personal', PersonalController::class);
 
 
 //
