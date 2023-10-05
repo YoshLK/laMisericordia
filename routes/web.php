@@ -11,6 +11,7 @@ use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\DonadorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +78,12 @@ Route::get('dashboard', [DashboardController::class, 'adultosDashboard'])->name(
 Route::resource('personal', PersonalController::class);
 //horarios
 Route::resource('horario', HorarioController::class);
+
+
+//RUTAS DONADOR GENERAL DONADOR
+Route::resource('donador', DonadorController::class);
+//donacion
+//Route::resource('horario', HorarioController::class);
 
 
 //

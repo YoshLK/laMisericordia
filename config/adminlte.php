@@ -193,7 +193,7 @@ return [
     'classes_content_wrapper' => 'elevation-4',
     'classes_content_header' => 'bg-success',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-success elevation-4',
+    'classes_sidebar' => 'sidebar-dark-light elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -316,15 +316,17 @@ return [
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
-        ['header' => 'Reporteria'],
+        ['header' => 'Reportes'],
         [
-            'text'       => 'dashboard',
-            'icon_color' => 'red',
+            'text'       => 'Panel de control',
+            'icon_color' => 'yellow',
+            'icon'    => 'fas fa-chart-area',
             'route'        => 'dashboard',
         ],
         ['header' => 'Adultos Mayores'],
         [
             'text'    => 'Adultos',
+            'icon_color' => 'green',
             'icon'    => 'fas fa-fw fa-user-plus',
             'submenu' => [
                 [
@@ -344,6 +346,7 @@ return [
         ['header' => 'Personal Operativo'],
         [
             'text'    => 'Personal',
+            'icon_color' => 'blue',
             'icon'    => 'fas fa-fw fa-plus-square',
             'submenu' => [
                 [
@@ -355,6 +358,13 @@ return [
                     'route' => 'personal.index',
                 ],
             ],
+        ],
+        ['header' => 'Donaciones'],
+        [
+            'text'       => 'Donadores / Donaciones',
+            'icon'    => 'fas fa-heart',
+            'icon_color' => 'red',
+            'route' => 'donador.index',
         ],
     ],
 

@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Horario;
+use App\Models\Donador;
 use Illuminate\Http\Request;
 
-class HorarioController extends Controller
+class DonadorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $datos['donadores'] = Donador::all();
+        return view('donador.index',$datos);  
     }
 
     /**
@@ -29,26 +30,21 @@ class HorarioController extends Controller
     public function store(Request $request)
     {
         $campos=[
-            'dia'=>'required|string|max:20',
-            'inicio'=>'required|date_format:H:i',
-            'final'=>'required|date_format:H:i',
-            'personal_id'=>'required|string',
+            'nombre_donador'=>'required|string|max:200',
         ];
         $mensaje=[
             'required'=> 'El :attribute es requerido.'
         ];
         $this->validate($request, $campos, $mensaje);
-
-        $datosHorario = request()->except('_token');
-        
-        Horario::insert($datosHorario);
-        return redirect('/general/personal_detalle/'.$request->personal_id)->with('mensaje', 'registrado');
+        $datosDonador = request()->except(['_token']);
+        Donador::insert($datosDonador);
+        return redirect('donador')->with('mensaje','registrado');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Horario $horario)
+    public function show(Donador $donador)
     {
         //
     }
@@ -56,7 +52,7 @@ class HorarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Horario $horario)
+    public function edit(Donador $donador)
     {
         //
     }
@@ -67,19 +63,17 @@ class HorarioController extends Controller
     public function update(Request $request, $id)
     {
         $campos=[
-            'dia'=>'required|string|max:20',
-            'inicio'=>'required',
-            'final'=>'required',
+            'nombre_donador'=>'required|string|max:200',
         ];
         $mensaje=[
             'required'=> 'El :attribute es requerido.'
         ];
         $this->validate($request, $campos, $mensaje);
 
-        $datosHorario = request()->except('_token','_method');
-        Horario::where('id','=',$id)->update($datosHorario);
-        $horario=Horario::findOrFail($id);    
-        return redirect( '/general/personal_detalle/'.$request->personal_id)->with('mensaje','editado');
+        $datosDonador = request()->except('_token','_method');
+        Donador::where('id','=',$id)->update($datosDonador);
+        $donador=Donador::findOrFail($id);    
+        return redirect()->route('donador.index')->with('mensaje', 'eliminado');
     }
 
     /**
@@ -87,8 +81,8 @@ class HorarioController extends Controller
      */
     public function destroy($id)
     {
-        $hoario=Horario::findOrFail($id);
-        Horario::destroy($id);
-        return redirect('/general/personal_detalle/'.$hoario->personal_id)->with('mensaje','eliminado');
+        $donador=Donador::findOrFail($id);
+        Donador::destroy($id);
+        return redirect()->route('donador.index')->with('mensaje', 'eliminado');
     }
 }
