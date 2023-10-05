@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DateTime;
 use App\Models\Adulto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,8 +11,32 @@ class AdultoController extends Controller
     // leer VER todos los registros
     public function index()  
     {       
-        $datos['adultos'] = Adulto::where('estado_actual', 'Activo')->get(); //traer 5 empleados
-        return view('adulto.index',$datos); //pasando datos a la vista
+        $datos['adultos'] = Adulto::where('estado_actual', 'Activo')->get();
+    
+        foreach ($datos['adultos'] as $adulto)
+    {
+        $fechaInicio = new DateTime($adulto->fecha_ingreso);
+        $fechaFinal = empty($adulto->fecha_salida) ? new DateTime() : new DateTime($adulto->fecha_salida);
+        $diferencia = $fechaInicio->diff($fechaFinal);
+
+        $anios = floor($diferencia->days / 365);
+        $meses = floor(($diferencia->days % 365) / 31);
+        $dias_restantes = ($diferencia->days % 365) % 31;
+
+        if ($anios != 0) {
+            $aniosText = $anios . ' Años ';
+        } else {
+            $aniosText = "";
+        }
+        
+        if ($meses != 0) {
+            $mesesText = $meses . ' Meses ';
+        } else {
+            $mesesText = "";
+        }
+        $conteoTiempo[] = $aniosText . $mesesText . $dias_restantes ." Dias";
+    }
+        return view('adulto.index',$datos,compact('conteoTiempo'));    
     }
 
     // abrir formulario para un nuevo registro

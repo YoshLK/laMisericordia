@@ -242,7 +242,7 @@
             <p class="text-white bg-success px-5">PATOLOGIAS</p>
         </h3>
         <div class="table table-auto">
-            <table class="table table-bordered  table-hover ">
+            <table class="table table-bordered  table-hover">
                 <thead class="thead table-success">
                     <tr>
                         <th>Patologia:</th>

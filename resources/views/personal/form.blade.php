@@ -44,12 +44,13 @@
 <div class="row px-5">
     <div class="col-4">
         <label for="DPI">DPI</label>
-        <input type="text"name="DPI" id="DPI" value="{{ isset($personal->DPI) ? $personal->DPI : old('DPI') }}"
-            placeholder="Ingresar DPI" class="form-control rounded-pill center">
+        <input type="text"name="DPI" id="DPI"
+            value="{{ isset($personal->DPI) ? $personal->DPI : old('DPI') }}" placeholder="Ingresar DPI"
+            class="form-control rounded-pill center">
     </div>
     <div class="col-4">
         @if (isset($personal->foto))
-            <img class="img-thumbnail img-fluid" src="{{ asset('storage') .'/'. $personal->foto }}" width="100">
+            <img class="img-thumbnail img-fluid" src="{{ asset('storage') . '/' . $personal->foto }}" width="100">
         @endif
         <label for="foto" class="px-2">Fotografia</label>
         <input type="file" name="foto" id="selectFoto" accept="image/*"
@@ -57,7 +58,7 @@
     </div>
     <div class="col-2">
         <label id="cambio" style="display: none;">Remplazo
-        <img class="mw-100" id="viewFoto"></label>
+            <img class="mw-100" id="viewFoto"></label>
     </div>
 </div>
 <br>
@@ -73,77 +74,82 @@
         <input type="number"name="edad" id="edad"
             value="{{ isset($personal->edad) ? $personal->edad : old('edad') }}" class="form-control rounded-pill">
     </div>
+</div>
+<div class="row px-5 mt-3">
+    <div class="col-8 mt-2">
+        <label for="direccion">Dirección</label>
+        <input type="text"name="direccion" id="direccion"
+            value="{{ isset($personal->direccion) ? $personal->direccion : old('direccion') }}"
+            placeholder="Direccion donde reside" class="form-control rounded-pill">
+    </div>
+    <div class="col-4 mt-2">
+        <label for="telefono">Telefono</label>
+        <input type="text"name="telefono" id="telefono"
+            value="{{ isset($personal->telefono) ? $personal->telefono : old('telefono') }}"
+            placeholder="Numero telefonico" class="form-control rounded-pill">
+    </div>
+</div>
+<div class="row-auto px-5 py-4">
+    <h3> <span class="fas fa-file {{ $ColorFormato }}"> Iformacion de contratacion</span> </h3>
+</div>
+<div class="row px-5">
+    <div class="col-4">
+        <label for="titulo">Titulo Academico</label>
+        <input type="text"name="titulo" id="titulo"
+            value="{{ isset($personal->titulo) ? $personal->titulo : old('titulo') }}" placeholder="Titulo academico"
+            class="form-control rounded-pill">
+    </div>
+    <div class="col-4 mt-2">
+        <label for="cargo">Cargo</label>
+        <input type="text"name="cargo" id="cargo"
+            value="{{ isset($personal->cargo) ? $personal->cargo : old('cargo') }}" placeholder="Cargo operativo"
+            class="form-control rounded-pill">
+    </div>
+    <div class="col-4 mt-2">
+        <label for="salario">Salario</label>
+        <input type="number"name="salario" id="salario"
+            value="{{ isset($personal->salario) ? $personal->salario : old('salario') }}"
+            placeholder="Monto del Salario" class="form-control rounded-pill">
+    </div>
+</div>
+<div class="row px-5 mt-3">
+    <div class="col-3">
+        <label for="impuesto">Impuesto</label>
+        <select class="form-control" name="impuesto" id="impuesto" class="form-control rounded-pill">
+            <option> {{ isset($personal->impuesto) ? $personal->impuesto : old('impuesto') }}</option>
+            <option>Aplica</option>
+            <option>No aplica</option>
+        </select>
+    </div>
+    <div class="col-6">
+        <label for="sat">Identificacion Tributaria / Motivo</label>
+        <input type="text"name="sat" id="sat"
+            value="{{ isset($personal->sat) ? $personal->sat : old('sat') }}" placeholder="Identificacion SAT"
+            class="form-control rounded-pill">
+    </div>
+</div>
+<div class="row px-5 mt-3">
     <div class="col-4">
         <label for="fecha_contratacion">Fecha de Contratacion</label>
         <input type="date"name="fecha_contratacion" id="fecha_contratacion"
             value="{{ isset($personal->fecha_contratacion) ? $personal->fecha_contratacion : old('fecha_contratacion') }}"
             class="form-control rounded-pill">
     </div>
-</div>
-    <div class="row px-5 mt-3">
-        <div class="col-8 mt-2">
-            <label for="direccion">Dirección</label>
-            <input type="text"name="direccion" id="direccion"
-                value="{{ isset($personal->direccion) ? $personal->direccion : old('direccion') }}"
-                placeholder="Direccion donde reside" class="form-control rounded-pill">
-        </div>
-        <div class="col-4 mt-2">
-            <label for="telefono">Telefono</label>
-            <input type="text"name="telefono" id="telefono"
-                value="{{ isset($personal->telefono) ? $personal->telefono : old('telefono') }}"
-                placeholder="Numero telefonico" class="form-control rounded-pill">
-        </div>
-    </div>
-    <div class="row px-5 mt-3">
-        <div class="col-4 mt-2">
-            <label for="titulo">Titulo Academico</label>
-            <input type="text"name="titulo" id="titulo"
-                value="{{ isset($personal->titulo) ? $personal->titulo : old('titulo') }}"
-                placeholder="Titulo academico" class="form-control rounded-pill">
-        </div>
-        <div class="col-4 mt-2">
-            <label for="cargo">Cargo</label>
-            <input type="text"name="cargo" id="cargo"
-                value="{{ isset($personal->cargo) ? $personal->cargo : old('cargo') }}"
-                placeholder="Cargo operativo" class="form-control rounded-pill">
-        </div>
-        <div class="col-4 mt-2">
-            <label for="salario">Salario</label>
-            <input type="number"name="salario" id="salario"
-                value="{{ isset($personal->salario) ? $personal->salario : old('salario') }}"
-                placeholder="Monto del Salario" class="form-control rounded-pill">
-        </div>
-    </div>
-    <div class="row px-5 mt-3">
-        <div class="col-3">
-            <label for="impuesto">Impuesto</label>
-            <select class="form-control" name="impuesto" id="impuesto" class="form-control rounded-pill">
-                <option> {{ isset($personal->impuesto) ? $personal->impuesto : old('impuesto') }}</option>
-                <option>Aplica</option>
-                <option>No aplica</option>
-            </select>
-        </div>
-        <div class="col-6">
-            <label for="sat">Identificacion/Motivo</label>
-            <input type="text"name="sat" id="sat"
-            value="{{ isset($personal->sat) ? $personal->sat : old('sat') }}"
-            placeholder="Identificacion SAT" class="form-control rounded-pill">
-        </div>
-        <div class="col-4">
-            <label for="estado_actual">Estado</label>
+    <div class="col-4">
+        <label for="estado_actual">Estado</label>
         <select class="form-control" name="estado_actual" id="estado_actual" class="form-control rounded-pill">
             <option> {{ isset($personal->estado_actual) ? $personal->estado_actual : old('estado_actual') }}</option>
             <option>Activo</option>
             <option>Inactivo</option>
         </select>
-        </div>
-        <div class="col-5">
-            <label id="fecha_salida" style="display: none;">Fecha de salida: <input type="date" name="fecha_salida"
-                    class="form-control rounded-pill"
-                    value="{{ isset($personal->fecha_salida) ? $personal->fecha_salida : old('fecha_salida') }}"></label>
-        </div>
     </div>
-    
+    <div class="col-5">
+        <label id="fecha_salida" style="display: none;">Fecha de salida: <input type="date" name="fecha_salida"
+                class="form-control rounded-pill"
+                value="{{ isset($personal->fecha_salida) ? $personal->fecha_salida : old('fecha_salida') }}"></label>
+    </div>
+</div>
+
 <div class="row px-3 py-3">
     <div class="col-auto">
         <x-adminlte-button class="btn-flat rounded-pill" type="submit" label="{{ $modo }} datos"
@@ -174,11 +180,11 @@
         });
     </script>
 
-<script> 
-    const cambioFoto = document.getElementById('cambio');
-     const $select_Foto = document.querySelector("#selectFoto"),
+    <script>
+        const cambioFoto = document.getElementById('cambio');
+        const $select_Foto = document.querySelector("#selectFoto"),
             $viewFoto = document.querySelector("#viewFoto");
-    
+
         $select_Foto.addEventListener("change", () => {
 
             const archivos = $select_Foto.files;
@@ -188,10 +194,10 @@
                 $cambioFoto.style.display = 'none';
                 return;
             }
-            
+
             const primerArchivo = archivos[0];
             const objectURL = URL.createObjectURL(primerArchivo);
-           
+
             $viewFoto.src = objectURL;
             cambioFoto.style.display = 'block';
         });

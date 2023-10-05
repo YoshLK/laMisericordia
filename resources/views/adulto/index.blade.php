@@ -5,51 +5,56 @@
 @section('plugins.Datatables', true)
 
 @section('content_header')
-    <h1 class="text-center bg-info ">Registros de Adultos Mayores</h1>
+    <h1 class="text-center bg-info ">Lista de Adultos Mayores</h1>
 @stop
 
 @section('content')
-
+    <?php setlocale(LC_TIME, 'es_ES.UTF-8', 'es_ES', 'Spanish_Spain'); ?>
     <a href="{{ url('adulto/create') }}" class="btn btn-outline-success"> + Registrar Nuevo Adulto Mayor</a>
     <br />
     <br />
-    <table id="adultos" class="table table-wite">
-        <thead class="thead table-info ">
+    <table id="adultos" class="table table-bordered  table-hover" >
+        <caption>Lista de Adultos Mayores la Misericordia</caption>
+        <thead class="thead bg-info ">
             <tr>
-                <th>Foto</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Ingreso</th>
-                <th>Salida</th>
-                <th>Tiempo</th>
-                <th>Patologias</th>
-                <th>Medicina</th>
-                <th>Acciones</th>
+                <th >Foto</th>
+                <th >Nombres</th>
+                <th >Apellidos</th>
+                <th >Ingreso</th>
+                <th >Salida</th>
+                <th >Tiempo</th>
+                <th >Patologias</th>
+                <th >Medicina</th>
+                <th >Acciones</th>
             </tr>
         </thead>
         <tbody>
 
             @foreach ($adultos as $adulto)
+            <input name="contador" value="{{ $contador = (int) $loop->iteration - 1 }}" type="hidden">
                 <tr>
                     <td>
                         <img class="img-thumbnail img-fluid" src="{{ asset('storage') . '/' . $adulto->foto }}" width="100">
                     </td>
                     <td>{{ $adulto->primer_nombre }} {{ $adulto->segundo_nombre }}</td>
                     <td>{{ $adulto->primer_apellido }} {{ $adulto->segundo_apellido }}</td>
-                    <td class="fecha-inicio">{{ $adulto->fecha_ingreso }}</td>
+                    {{-- <td > {{ \Carbon\Carbon::parse($adulto->fecha_ingreso)->format('d/m/Y') }}</td>--}}
+                    <td class="fecha-inicio">{{ $adulto->fecha_ingreso }}</td> 
                     <td class="fecha-fin">{{ $adulto->fecha_salida }}</td>
-                    <td class="resultado"></td> 
-                    <td>
+                    <td class="resultado">{{$conteoTiempo[$contador]}}</td>
+                    <td class="px-4">
                         @if (isset($adulto->historialDatos->id))
                             @foreach ($adulto->historialDatos->patologiasDatos as $patologia)
-                                <li>{{ $patologia->nombre_patologia }}</li>
+                                <li> {{ $patologia->nombre_patologia }}</li>
                             @endforeach
                         @endif
                     </td>
-                    <td>
+                    <td class="px-4">
                         @if (isset($adulto->historialDatos->id))
                             @foreach ($adulto->historialDatos->medicamentosDatos as $medicamento)
-                                <li>{{ $medicamento->nombre_medicamento }} {{ $medicamento->cantidad_medicamento }} {{ $medicamento->medida_medicamento }} Frec: {{ $medicamento->frecuencia_tiempo }} {{ $medicamento->frecuencia_dia }} </li>
+                                <li>{{ $medicamento->nombre_medicamento }} {{ $medicamento->cantidad_medicamento }}
+                                    {{ $medicamento->medida_medicamento }} Frec: {{ $medicamento->frecuencia_tiempo }}
+                                    {{ $medicamento->frecuencia_dia }} </li>
                             @endforeach
                         @endif
                     </td>
@@ -79,6 +84,9 @@
     </table>
     <!--{//!! $adultos->links() !!}-->
     <button id="calcularEstancia">Calcular Estancia</button>
+
+
+{{$conteoTiempo[$contador]}}
 
 @stop
 
@@ -161,14 +169,14 @@
                         titleAttr: 'Exportar a PDF',
                         className: 'btn btn-danger',
                     },
-                    {   
+                    {
                         extend: 'print',
                         text: '<i class="fas fa-print"></i>',
                         titleAttr: 'Imprimir',
                         className: 'btn btn-info',
                     },
                 ],
-           });
+            });
         }
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('calcularEstancia').addEventListener('click', TiempoEstancia);
@@ -176,8 +184,11 @@
     </script>
 
     <script>
+        var fechaHoraActual = new Date();
+  var formatoFechaHora = fechaHoraActual.toLocaleString();
+  var tituloConFechaHora = 'Adultos Mayores La Misericordia:' + formatoFechaHora;
         $(document).ready(function() {
-           $('#adultos').DataTable({
+            $('#adultos').DataTable({
                 language: {
                     "processing": "Procesando...",
                     "lengthMenu": "Mostrar _MENU_ registros",
@@ -196,27 +207,33 @@
                     }
                 },
                 responsive: "true",
-                dom: 'lBfrtip',
+                dom: 'liBfrtp',
                 buttons: [{
                         extend: 'excelHtml5',
                         text: '<i class="fas fa-file-excel"></i>',
                         titleAttr: 'Exportar a excel',
                         className: 'btn btn-success',
+                        title: tituloConFechaHora,
+                        exportOptions: {columns: [1, 2, 3, 4, 5, 6, 7 ],},
                     },
                     {
                         extend: 'pdfHtml5',
                         text: '<i class="fas fa-file-pdf"></i>',
                         titleAttr: 'Exportar a PDF',
                         className: 'btn btn-danger',
+                        title: tituloConFechaHora,
+                        exportOptions: {columns: [1, 2, 3, 4, 5, 6, 7 ],},
                     },
-                    {   
+                    {
                         extend: 'print',
                         text: '<i class="fas fa-print"></i>',
                         titleAttr: 'Imprimir',
                         className: 'btn btn-info',
+                        title: tituloConFechaHora,
+                        exportOptions: {columns: [1, 2, 3, 4, 5, 6, 7 ],},
                     },
                 ],
-           });
+            });
         });
     </script>
 

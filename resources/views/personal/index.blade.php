@@ -42,7 +42,7 @@
                     <td>      </td>
                     <td>   </td>
                     <td>
-                        <a href="{{ url('/general/adulto_detalle/' . $personal->id) }}"
+                        <a href="{{ url('/general/personal_detalle/' . $personal->id) }}"
                             class="btn btn-xs btn-info text-light mx-1 shadow" title="Detalle">
                             <i class="fa fa-lg fa-fw fa-eye"></i>Detalle
                         </a>

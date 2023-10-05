@@ -10,6 +10,7 @@ use App\Http\Controllers\PatologiaController;
 use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PersonalController;
+use App\Http\Controllers\HorarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,32 +50,33 @@ Route::get('/adulto/create',[AdultoController::class,'create']);
 */
 
 //RUTA GENERAL DE ADULTOS
-//Route::resource('adulto', AdultoController::class);
-//Route::post('adulto/inactivo', [AdultoController::class, 'inactivo'])->name('adulto.inactivo');
 Route::get('adulto/inactivo', [AdultoController::class, 'inactivo'])->name('adulto.inactivo');
 Route::resource('adulto', AdultoController::class);
-//RUTA GENERAL DE REFERENCIAS
+//referencias
 Route::resource('referencia', ReferenciaController::class);
-//RUTA GENERAL DE Historial
+//historial
 Route::resource('historial', HistorialController::class);
-//RUTA GENERAL DE patologia
+//patologia
 Route::resource('patologia', PatologiaController::class);
-//Ruta eliminar patologia
 Route::post('/eliminar_patologia', [PatologiaController::class, 'eliminar'])->name('eliminar_patologia');
-//RUTA GENERAL DE medicamento
+//medicamento
 Route::resource('medicamento', MedicamentoController::class);
 Route::post('/eliminar_medicamento', [MedicamentoController::class, 'eliminar'])->name('eliminar_medicamento');
 
-//Route::resource('general', GeneralController::class);
-Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'ver']);
-//Dashboard
+//Ruta visualizar detalles
+Route::get('/general/adulto_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'verAdulto']);
+Route::get('/general/personal_detalle/{id}',[App\Http\Controllers\GeneralController::class, 'verPersonal']);
+
+//Dashboard rutas
 Route::get('/grafica-medicinas', [DashboardController::class,'graficaMedicinas'])->name('grafica-medicinas');
 Route::get('/conteo-activos', [DashboardController::class,'conteoActivos'])->name('conteo-activos');
 Route::get('dashboard', [DashboardController::class, 'adultosDashboard'])->name('dashboard');
 
 
-//RUTA GENERAL PERSONAL
+//RUTAS PERSONAL GENERAL PERSONAL
 Route::resource('personal', PersonalController::class);
+//horarios
+Route::resource('horario', HorarioController::class);
 
 
 //
