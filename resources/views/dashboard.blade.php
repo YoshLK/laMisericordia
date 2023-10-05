@@ -10,55 +10,95 @@
 
 @section('content')
     <p>Dashbord ... En Proceso</p>
-    <div class="card" style="width: 75%;">
-        <div class="row px-5 mt-2">
-            <div class="col-4">
-                <x-adminlte-small-box class="text-center " title="{{ $conteoActivo }}" text="Adultos Activos" theme="purple"
-                    url="adulto" url-text="VER" style="width: 75%" />
-            </div>
-            <div class="col-4">
-                <x-adminlte-small-box class="text-center " title="{{ $conteoInactivos }}" text="Adultos Inactivos"
-                    theme="danger" url="adulto/inactivo" url-text="VER" style="width: 75%" />
-            </div>
-        </div>
-    </div>
 
-    <div class="card-columns" style="width: 75%;">
-        <div class="card-auto">
-             <div class="card-body">
-            <x-adminlte-small-box class="text-center " title="{{ $conteoActivo }}" text="Adultos Activos" theme="purple"
-                url="adulto" url-text="VER" style="width: 75%" />
-        </div>
-    </div>
-        <div class="card-auto">
-            <x-adminlte-small-box class="text-center " title="{{ $conteoInactivos }}" text="Adultos Inactivos"
-                theme="danger" url="adulto/inactivo" url-text="VER" style="width: 75%" />
-        </div>
-    </div>
-    </div>
-
-    <div class="col-4">
-        <div class="card card-warning bg-pink" style="width:75%">
-            <div class="card-header">
-                <h3 class="card-title">Proximos Cumpleaños</h3>
+    <div class="row px-5 mt-2">
+        <div class="col-3">
+            <div class="small-box bg-gradient-purple">
+                <div class="inner">
+                    <h3>{{ $conteoActivo }}</h3>
+                    <p>Adultos Activos</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <a href="adulto" class="small-box-footer">
+                    Ver <i class="fas fa-arrow-circle-right"></i>
+                </a>
             </div>
-            <div class="card-body">
-                <ol type="1">
+        </div>
+        <div class="col-3">
+            <div class="small-box bg-gradient-red">
+                <div class="inner">
+                    <h3>{{ $conteoInactivos }}</h3>
+                    <p>Adultos Egresados</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-user-times"></i>
+                </div>
+                <a href="adulto/inactivo" class="small-box-footer">
+                    Ver <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="info-box bg-orange">
+                <span class="info-box-icon"><i class="fas fa-birthday-cake px-5"></i></span>
+                <div class="info-box-content">
+                    <h3>Proximos Cumpleaños</h3>
                     @foreach ($cumplesAdultos as $cumpleAdulto)
-                        <li>{{ $cumpleAdulto->primer_nombre }} {{ $cumpleAdulto->segundo_nombre }}
-                            {{ $cumpleAdulto->primer_apellido }}
-                            {{ $cumpleAdulto->segundo_apellido }} - {{ $cumpleAdulto->fecha_nacimiento }}</li>
+                        <h5 class="px-4">
+                            <li class="list-style-type: decimal-leading-zero">{{ $cumpleAdulto->primer_nombre }}
+                                {{ $cumpleAdulto->segundo_nombre }}
+                                {{ $cumpleAdulto->primer_apellido }}
+                                {{ $cumpleAdulto->segundo_apellido }} - {{ $cumpleAdulto->fecha_nacimiento }}</li>
                     @endforeach
                     @foreach ($cumplesPersonals as $cumplePersonal)
                         <li>{{ $cumplePersonal->primer_nombre }} {{ $cumplePersonal->segundo_nombre }}
                             {{ $cumplePersonal->primer_apellido }}
                             {{ $cumplePersonal->segundo_apellido }} - {{ $cumplePersonal->fecha_nacimiento }}</li>
+                        </h5>
                     @endforeach
-                </ol>
+                </div>
             </div>
         </div>
     </div>
+<br>
+{{-- Horario --}}
+<table id="adultos" class="table table-bordered  table-hover" >
+    <caption>Horarios del Personal la Misericordia</caption>
+    <thead class="thead bg-info ">
+        <tr>
+            <th >Nombre</th>
+            <th >Lunes</th>
+            <th >Martes</th>
+            <th >Miércoles</th>
+            <th >Jueves</th>
+            <th >Viernes</th>
+            <th >Sábado</th>
+            <th >Domingo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($datosHorarios as $empleado)
+            <tr>
+                <td>{{ $empleado->primer_nombre }} {{ $empleado->primer_apellido }}</td>
+                @foreach (['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'] as $dia)
+                    <td>
+                        @if (isset($empleado->horarios[$dia]))
+                            {{ $empleado->horarios[$dia] }}
+                        @else
+                            <!-- Puedes mostrar un mensaje o dejarlo en blanco -->
+                        @endif
+                    </td>
+                @endforeach
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
+
+
+    {{-- Graficas --}}
     <div class="card card-white bg-info" style="width:75%">
         <div class="card-header">
             <h3 class="card-title">GRAFICA DE % ENFERMEDADES</h3>
@@ -67,10 +107,11 @@
             @foreach ($enfermedades as $enfermedad)
                 {{ $enfermedad->nombre_patologia }}: {{ $enfermedad->cantidad_repeticiones }} <x-adminlte-progress
                     theme="orange" value="{{ ($enfermedad->cantidad_repeticiones / $conteoActivo) * 100 }}" vertical
-                    striped with-label />
+                    with-label />
             @endforeach
         </div>
     </div>
+    <br>
 
     <div class="card card-white bg-info" style="width:75%">
         <div class="card-header">
@@ -79,8 +120,7 @@
         <div class="card-body">
             @foreach ($medicinas as $medicamento)
                 {{ $medicamento->nombre_medicamento }}: {{ $medicamento->cantidad_repeticiones }}<x-adminlte-progress
-                    theme="danger" value="{{ ($medicamento->cantidad_repeticiones / $sumaMedicina) * 100 }}" striped
-                    with-label />
+                    theme="danger" value="{{ ($medicamento->cantidad_repeticiones / $sumaMedicina) * 100 }}" with-label />
             @endforeach
 
         </div>
@@ -94,7 +134,7 @@
 
 
 
-    <div style="width:50%">
+    {{-- <div style="width:50%">
         <canvas id="myChart"></canvas>
     </div>
 
@@ -104,9 +144,143 @@
 
     <button id="generarGrafica">Generar Grafica</button>
 
-    <div id="grafica"></div>
+    <div id="grafica"></div> --}}
 
-    HOLA
+    {{-- <div class="row w-100">
+        <div class="col-md-3">
+            <div class="card border">
+                
+                <x-adminlte-small-box class="text-center " title="{{ $conteoActivo }}" text="Adultos Activos" theme="purple"
+                    url="adulto" url-text="VER" style="width: 100%" />
+                    --}}
+    {{-- </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-success mx-sm-1 p-3">
+                <div class="card border-success shadow text-success p-3 my-card"><span class="fa fa-eye" aria-hidden="true"></span></div>
+                <div class="text-success text-center mt-3"><h4>Eyes</h4></div>
+                <div class="text-success text-center mt-2"><h1>9332</h1></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-danger mx-sm-1 p-3">
+                <div class="card border-danger shadow text-danger p-3 my-card" ><span class="fa fa-heart" aria-hidden="true"></span></div>
+                <div class="text-danger text-center mt-3"><h4>Hearts</h4></div>
+                <div class="text-danger text-center mt-2"><h1>346</h1></div>
+            </div>
+        </div>
+     </div> --}}
+
+
+    {{-- <div class="container mt-4">
+        <div class="row">
+            <!-- Primera tarjeta con altura fija -->
+            <div class="col-md-3">
+                <div class="card mb-4" >
+                    <div class="card-body">
+                        <h5 class="card-title">Tarjeta R1 C1</h5>
+                        <p class="card-text">Contenido de la Tarjeta 1.</p>
+                    </div>
+                </div>
+                <div class="card md-4"  >
+                    <div class="card-body">
+                        <h5 class="card-title">Tarjeta c1</h5>
+                        <p class="card-text">Contenido de la Tarjeta 4.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Segunda tarjeta con altura fija -->
+            <div class="col-md-3">
+                <div class="card mb-4" >
+                    <div class="card-body">
+                        <h5 class="card-title">Tarjeta R1 C2</h5>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Tarjeta c2</h5>
+                        <p class="card-text">Contenido de la Tarjeta 5.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Espacio sobrante -->
+            <div class="col-md-6">
+                <!-- Tarjeta que ocupará el espacio sobrante -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Tarjeta Extra</h5>
+                        
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <p class="card-text">Contenido de la Tarjeta 2.</p>
+                        <!-- Contenido de la Tarjeta Extra -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+
+{{-- 
+    <div class="card-columns">
+        <!-- Primera tarjeta con altura fija -->
+        <div class="card-auto">
+            <div class="card-body" name="tarjeta 1">
+                <x-adminlte-small-box class="text-center " title="{{ $conteoActivo }}" text="Adultos Activos"
+                    theme="purple" url="adulto" url-text="VER" style="width: 75%" />
+            </div>
+        </div>
+        <!-- Segunda tarjeta con altura fija -->
+
+        <div class="card-auto">
+            <div class="card-body">
+                <x-adminlte-small-box class="text-center " title="{{ $conteoInactivos }}" text="Adultos Inactivos"
+                    theme="danger" url="adulto/inactivo" url-text="VER" style="width: 75%" />
+            </div>
+        </div>
+
+
+
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Tarjeta Extra</h5>
+
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <p class="card-text">Contenido de la Tarjeta 2.</p>
+                <!-- Contenido de la Tarjeta Extra -->
+            </div>
+        </div>
+
+
+
+        <!-- Tarjeta que ocupará el espacio sobrante -->
+    </div>
+
+    <div class="card" style="width: 700px">
+        <div class="card-body">
+            <h5 class="card-title">Tarjeta2</h5>
+            <p class="card-text">Contenido de la Tarjeta 2.</p>
+        </div>
+    </div> --}}
+
 @stop
 
 @section('css')

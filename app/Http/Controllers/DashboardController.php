@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -13,8 +14,6 @@ class DashboardController extends Controller
         $conteoInactivos = DB::table('adultos')->where('estado_actual', 'Inactivo')->count();
 
         //$hoy = now();
-       
-
         $cumplesAdultos = DB::table('adultos')
         ->where('estado_actual', 'activo')
         ->whereRaw('DATE_ADD(fecha_nacimiento, INTERVAL YEAR(CURDATE()) - YEAR(fecha_nacimiento) YEAR) >= CURDATE()')
@@ -42,8 +41,35 @@ class DashboardController extends Controller
         ->select('medicamentos.nombre_medicamento', DB::raw('COUNT(*) as cantidad_repeticiones'))
         ->groupBy('medicamentos.nombre_medicamento')
         ->get();
-
         $sumaMedicina = $medicinas->sum('cantidad_repeticiones');
+
+
+        $datosHorarios = DB::table('personals')
+        ->join('horarios', 'personals.id', '=', 'horarios.personal_id')
+        ->where('personals.estado_actual', 'Activo')
+        ->selectRaw('personals.primer_nombre, personals.primer_apellido, GROUP_CONCAT(CONCAT(horarios.dia, ": ", horarios.inicio, "-", horarios.final) SEPARATOR ", ") as horarios')
+        ->groupBy('personals.primer_nombre', 'personals.primer_apellido')
+        ->get();
+
+    // Procesa los horarios para convertirlos en un array asociativo
+    foreach ($datosHorarios as $empleado) {
+        $horariosArray = [];
+        $horarios = explode(', ', $empleado->horarios);
+        foreach ($horarios as $horario) {
+            list($dia, $horario) = explode(': ', $horario);
+            list($inicio, $final) = explode('-', $horario);
+            
+            // Parsea las horas con Carbon para formatearlas
+            $inicio = Carbon::parse($inicio)->format('H:i');
+            $final = Carbon::parse($final)->format('H:i');
+
+            $horariosArray[$dia] = "$inicio - $final";
+        }
+        $empleado->horarios = $horariosArray;
+    }
+       
+
+
         return view('dashboard', [
             'conteoActivo' => $conteoActivo,
             'conteoInactivos' => $conteoInactivos,
@@ -52,6 +78,7 @@ class DashboardController extends Controller
             'enfermedades'=>$enfermedades,
             'medicinas'=>$medicinas,
             'sumaMedicina'=>$sumaMedicina,
+            'datosHorarios'=>$datosHorarios,
         ]);
     }
 

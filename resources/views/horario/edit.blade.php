@@ -23,10 +23,10 @@
                             <option>{{ $horario->dia }}</option>
                             <option>Lunes</option>
                             <option>Martes</option>
-                            <option>Miércoles</option>
+                            <option>Miercoles</option>
                             <option>Jueves</option>
                             <option>Viernes</option>
-                            <option>Sábado</option>
+                            <option>Sabado</option>
                             <option>Domingo</option>
                         </select>
                         </div>
