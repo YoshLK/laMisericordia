@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Donador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DonadorController extends Controller
 {
@@ -11,9 +12,17 @@ class DonadorController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $datos['donadores'] = Donador::all();
-        return view('donador.index',$datos);  
+    {   
+        //$donadores = DB::table('donadors')->get(); 
+
+        $donadores = DB::table('donadors')
+    ->leftJoin('donacions', 'donadors.id', '=', 'donacions.donador_id')
+    ->select('donadors.id', 'donadors.nombre_donador', 'donadors.organizacion','donadors.telefono_donador', DB::raw('COUNT(donacions.id) as total_donaciones'))
+    ->groupBy('donadors.id', 'donadors.nombre_donador','donadors.organizacion','donadors.telefono_donador')
+    ->get();
+        return view('donador.index', [
+            'donadores' => $donadores,
+        ]); 
     }
 
     /**
@@ -73,7 +82,7 @@ class DonadorController extends Controller
         $datosDonador = request()->except('_token','_method');
         Donador::where('id','=',$id)->update($datosDonador);
         $donador=Donador::findOrFail($id);    
-        return redirect()->route('donador.index')->with('mensaje', 'eliminado');
+        return redirect()->route('donador.index')->with('mensaje', 'editado');
     }
 
     /**

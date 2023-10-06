@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Donador extends Model
+class Donacion extends Model
 {
     use HasFactory;
     
-    public function donacionesDatos(){
-        return $this->hasMany(Donacion::class);
+    public function donadoresDatos(){
+        return $this->belongsTo(Donador::class, 'donador_id');
     } 
-} 
+
+}

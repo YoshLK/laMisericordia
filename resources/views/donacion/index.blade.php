@@ -1,68 +1,57 @@
 @extends('adminlte::page')
 
-@section('title', 'Donadores')
+@section('title', 'Donaciones')
 
 @section('plugins.Datatables', true)
 
 @section('content_header')
-    <h1 class="text-center bg-danger ">Registros Donadores</h1>
+    <h1 class="text-center bg-danger ">Registros Donaciones</h1>
 @stop
 
 @section('content')
 
-    <div class="col-3">
-        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createDonador">
-            + Añadir Donador
-        </button>
-        @include('donador.create')
-    </div><br />
-    <br />
-    <table id="donadoresTable" class="table table-wite">
+    <!--Tabla Donaciones-->
+    <table id="donacionesTable" class="table table-wite">
         <thead class="thead table-info ">
             <tr>
-                <th>Donador</th>
-                <th>Organizacion</th>
-                <th>Telefono</th>
-                <th>No. Donaciones</th>
+                <th>Nombre del donador</th>
+                <th>Tipo de Donacion</th>
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+                <th>Fech-Registro</th>
+                <th>Fech-Modificacion</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
 
-            @foreach ($donadores as $donador)
+            @foreach ($donaciones as $donacion)
                 <tr>
-                    <td>{{ $donador->nombre_donador }}</td>
-                    <td>{{ $donador->organizacion }}</td>
-                    <td>{{ $donador->telefono_donador }}</td>
-                    <td>{{$donador->total_donaciones}}</td>
+                    <td>{{ $donacion->nombre_donador }}</td>
+                    <td>{{ $donacion->tipo_donacion }}</td>
+                    <td>{{ $donacion->descripcion }}</td>
+                    <td>{{ $donacion->cantidad }}</td>
+                    <td>{{ $donacion->created_at }}</td>
+                    <td>{{ $donacion->updated_at }}</td>
                     <td>
-                        <button type="button" class="btn btn-outline-warning formulario" data-toggle="modal"
-                            data-target="#createDonacion{{ $donador->id }}">
-                            <i class="far fa-lg fa-heart"></i>
-                        </button>
                         <button type="button" class="btn btn-outline-primary formulario" data-toggle="modal"
-                            data-target="#editDonador{{ $donador->id }}">
+                            data-target="#editDonacion{{ $donacion->id }}">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </button>
-                        <form action="{{ route('donador.destroy', $donador->id) }}" class="d-inline formulario-eliminar"
+                        <form action="{{ route('donacion.destroy', $donacion->id) }}" class="d-inline formulario-eliminar"
                             method="post">
                             @csrf
                             @method('DELETE')
-                            <input name="id" value="{{ $donador->id }}" type="hidden">
+                            <input name="id" value="{{ $donacion->id }}" type="hidden">
                             <button type="submit" class="btn btn-outline-danger formulario" title="Borrar"><i
                                     class="fa fa-lg fa-fw fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>
-                @include('donador.edit')
-                @include('donacion.create')
+                @include('donacion.edit')
             @endforeach
-
-
-            
         </tbody>
     </table>
-    <br>
 
 @stop
 
@@ -74,7 +63,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#donadoresTable').DataTable({
+            $('#donacionesTable').DataTable({
                 language: {
                     "processing": "Procesando...",
                     "lengthMenu": "Mostrar _MENU_ registros",

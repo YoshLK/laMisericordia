@@ -79,20 +79,20 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($datosHorarios as $empleado)
-            <tr>
-                <td>{{ $empleado->primer_nombre }} {{ $empleado->primer_apellido }}</td>
-                @foreach (['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'] as $dia)
-                    <td>
-                        @if (isset($empleado->horarios[$dia]))
-                            {{ $empleado->horarios[$dia] }}
-                        @else
-                            <!-- Puedes mostrar un mensaje o dejarlo en blanco -->
-                        @endif
-                    </td>
-                @endforeach
-            </tr>
+        @foreach ($empleadosConHorarios as $nombrePersonal => $horariosPorDia)
+    <tr>
+        <td>{{ $nombrePersonal }}</td>
+        @foreach (['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'] as $dia)
+            <td>
+                @if (isset($horariosPorDia[$dia]))
+                    {{ $horariosPorDia[$dia] }}
+                @else
+                    <!-- Puedes mostrar un mensaje o dejarlo en blanco -->
+                @endif
+            </td>
         @endforeach
+    </tr>
+@endforeach
     </tbody>
 </table>
 
@@ -134,7 +134,7 @@
 
 
 
-    {{-- <div style="width:50%">
+     {{-- <div style="width:50%">
         <canvas id="myChart"></canvas>
     </div>
 
@@ -146,140 +146,7 @@
 
     <div id="grafica"></div> --}}
 
-    {{-- <div class="row w-100">
-        <div class="col-md-3">
-            <div class="card border">
-                
-                <x-adminlte-small-box class="text-center " title="{{ $conteoActivo }}" text="Adultos Activos" theme="purple"
-                    url="adulto" url-text="VER" style="width: 100%" />
-                    --}}
-    {{-- </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card border-success mx-sm-1 p-3">
-                <div class="card border-success shadow text-success p-3 my-card"><span class="fa fa-eye" aria-hidden="true"></span></div>
-                <div class="text-success text-center mt-3"><h4>Eyes</h4></div>
-                <div class="text-success text-center mt-2"><h1>9332</h1></div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card border-danger mx-sm-1 p-3">
-                <div class="card border-danger shadow text-danger p-3 my-card" ><span class="fa fa-heart" aria-hidden="true"></span></div>
-                <div class="text-danger text-center mt-3"><h4>Hearts</h4></div>
-                <div class="text-danger text-center mt-2"><h1>346</h1></div>
-            </div>
-        </div>
-     </div> --}}
-
-
-    {{-- <div class="container mt-4">
-        <div class="row">
-            <!-- Primera tarjeta con altura fija -->
-            <div class="col-md-3">
-                <div class="card mb-4" >
-                    <div class="card-body">
-                        <h5 class="card-title">Tarjeta R1 C1</h5>
-                        <p class="card-text">Contenido de la Tarjeta 1.</p>
-                    </div>
-                </div>
-                <div class="card md-4"  >
-                    <div class="card-body">
-                        <h5 class="card-title">Tarjeta c1</h5>
-                        <p class="card-text">Contenido de la Tarjeta 4.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Segunda tarjeta con altura fija -->
-            <div class="col-md-3">
-                <div class="card mb-4" >
-                    <div class="card-body">
-                        <h5 class="card-title">Tarjeta R1 C2</h5>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Tarjeta c2</h5>
-                        <p class="card-text">Contenido de la Tarjeta 5.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Espacio sobrante -->
-            <div class="col-md-6">
-                <!-- Tarjeta que ocupará el espacio sobrante -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Tarjeta Extra</h5>
-                        
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <p class="card-text">Contenido de la Tarjeta 2.</p>
-                        <!-- Contenido de la Tarjeta Extra -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-
-{{-- 
-    <div class="card-columns">
-        <!-- Primera tarjeta con altura fija -->
-        <div class="card-auto">
-            <div class="card-body" name="tarjeta 1">
-                <x-adminlte-small-box class="text-center " title="{{ $conteoActivo }}" text="Adultos Activos"
-                    theme="purple" url="adulto" url-text="VER" style="width: 75%" />
-            </div>
-        </div>
-        <!-- Segunda tarjeta con altura fija -->
-
-        <div class="card-auto">
-            <div class="card-body">
-                <x-adminlte-small-box class="text-center " title="{{ $conteoInactivos }}" text="Adultos Inactivos"
-                    theme="danger" url="adulto/inactivo" url-text="VER" style="width: 75%" />
-            </div>
-        </div>
-
-
-
-
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Tarjeta Extra</h5>
-
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <p class="card-text">Contenido de la Tarjeta 2.</p>
-                <!-- Contenido de la Tarjeta Extra -->
-            </div>
-        </div>
-
-
-
-        <!-- Tarjeta que ocupará el espacio sobrante -->
-    </div>
-
-    <div class="card" style="width: 700px">
-        <div class="card-body">
-            <h5 class="card-title">Tarjeta2</h5>
-            <p class="card-text">Contenido de la Tarjeta 2.</p>
-        </div>
-    </div> --}}
+    
 
 @stop
 

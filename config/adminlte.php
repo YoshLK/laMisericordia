@@ -359,12 +359,20 @@ return [
                 ],
             ],
         ],
-        ['header' => 'Donaciones'],
         [
-            'text'       => 'Donadores / Donaciones',
+            'text'    => 'Donador / Donaciones',
             'icon'    => 'fas fa-heart',
             'icon_color' => 'red',
-            'route' => 'donador.index',
+            'submenu' => [
+                [
+                    'text' => 'Donador',
+                    'route' => 'donador.index',
+                ],
+                [
+                    'text' => 'Registro de Donaciones',
+                    'route' => 'donacion.index',
+                ],
+            ],
         ],
     ],
 

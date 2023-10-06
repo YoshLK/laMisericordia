@@ -45,29 +45,44 @@ class DashboardController extends Controller
 
 
         $datosHorarios = DB::table('personals')
-        ->join('horarios', 'personals.id', '=', 'horarios.personal_id')
-        ->where('personals.estado_actual', 'Activo')
-        ->selectRaw('personals.primer_nombre, personals.primer_apellido, GROUP_CONCAT(CONCAT(horarios.dia, ": ", horarios.inicio, "-", horarios.final) SEPARATOR ", ") as horarios')
-        ->groupBy('personals.primer_nombre', 'personals.primer_apellido')
-        ->get();
+    ->join('horarios', 'personals.id', '=', 'horarios.personal_id')
+    ->where('personals.estado_actual', 'Activo')
+    ->selectRaw('personals.primer_nombre, personals.primer_apellido, horarios.dia, GROUP_CONCAT(CONCAT(horarios.inicio, "-", horarios.final) SEPARATOR ", ") as horario')
+    ->groupBy('personals.primer_nombre', 'personals.primer_apellido', 'horarios.dia')
+    ->get();
 
-    // Procesa los horarios para convertirlos en un array asociativo
-    foreach ($datosHorarios as $empleado) {
-        $horariosArray = [];
-        $horarios = explode(', ', $empleado->horarios);
-        foreach ($horarios as $horario) {
-            list($dia, $horario) = explode(': ', $horario);
-            list($inicio, $final) = explode('-', $horario);
-            
-            // Parsea las horas con Carbon para formatearlas
-            $inicio = Carbon::parse($inicio)->format('H:i');
-            $final = Carbon::parse($final)->format('H:i');
+    $empleadosConHorarios = [];
 
-            $horariosArray[$dia] = "$inicio - $final";
-        }
-        $empleado->horarios = $horariosArray;
+foreach ($datosHorarios as $empleado) {
+    $nombreCompleto = $empleado->primer_nombre . ' ' . $empleado->primer_apellido;
+    $dia = $empleado->dia;
+    $horario = $empleado->horario;
+
+    // Divide la cadena de horario en partes separadas por ","
+    $partesHorario = explode(', ', $horario);
+
+    // Inicializa un arreglo para almacenar las horas y minutos formateados
+    $horariosFormateados = [];
+
+    // Procesa cada parte del horario
+    foreach ($partesHorario as $parte) {
+        // Divide cada parte en hora de inicio y hora final
+        list($horaInicio, $horaFinal) = explode('-', $parte);
+
+        // Formatea las horas y minutos utilizando Carbon
+        $horaInicioFormateada = Carbon::parse($horaInicio)->format('H:i');
+        $horaFinalFormateada = Carbon::parse($horaFinal)->format('H:i');
+
+        // Agrega las horas y minutos formateados al arreglo
+        $horariosFormateados[] = $horaInicioFormateada . ' a ' . $horaFinalFormateada;
     }
-       
+
+    if (!isset($empleadosConHorarios[$nombreCompleto])) {
+        $empleadosConHorarios[$nombreCompleto] = [];
+    }
+
+    $empleadosConHorarios[$nombreCompleto][$dia] = implode(' - ', $horariosFormateados);
+}
 
 
         return view('dashboard', [
@@ -78,7 +93,7 @@ class DashboardController extends Controller
             'enfermedades'=>$enfermedades,
             'medicinas'=>$medicinas,
             'sumaMedicina'=>$sumaMedicina,
-            'datosHorarios'=>$datosHorarios,
+            'empleadosConHorarios'=>$empleadosConHorarios,
         ]);
     }
 

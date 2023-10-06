@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\DonadorController;
+use App\Http\Controllers\DonacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +84,7 @@ Route::resource('horario', HorarioController::class);
 //RUTAS DONADOR GENERAL DONADOR
 Route::resource('donador', DonadorController::class);
 //donacion
-//Route::resource('horario', HorarioController::class);
+Route::resource('donacion', DonacionController::class);
 
 
 //
